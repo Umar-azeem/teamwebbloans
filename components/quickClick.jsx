@@ -52,7 +52,7 @@ const QuickContactModal = ({ onClose }) => {
         className="relative w-full max-w-5xl bg-[#0a5c3a] rounded-3xl overflow-hidden flex flex-col min-h-[520px]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Watermark SVG */}
+    
         <div className="absolute right-0 top-0 h-full flex items-center pointer-events-none select-none">
           <svg
             className="opacity-10 h-full"
@@ -70,7 +70,7 @@ const QuickContactModal = ({ onClose }) => {
           </svg>
         </div>
 
-        {/* Watermark text bottom-right */}
+        
         <div className="absolute bottom-16 right-6 pointer-events-none select-none text-right hidden sm:block">
           <p className="text-white/10 text-5xl font-black tracking-tight leading-none">ADRIAN W</p>
           <p className="text-white/10 text-xl font-bold mt-1">Mortgage Advisors</p>

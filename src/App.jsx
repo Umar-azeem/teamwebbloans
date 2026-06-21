@@ -35,7 +35,7 @@ const MortgageLandingPage = () => {
 
   return (
     <div className="p-2 sm:p-4">
-      {/* HERO (background stays full-bleed, content is constrained) */}
+      
       <div className="rounded-3xl bg-[#0a5c3a] text-white font-sans overflow-hidden relative">
 
         <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
@@ -44,9 +44,9 @@ const MortgageLandingPage = () => {
           </svg>
         </div>
 
-        {/* NAV */}
+        
         <nav className="relative z-10 max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between px-4 sm:px-6 lg:px-8 py-6 gap-6">
-          {/* Logo */}
+          
           <div className="flex items-center gap-3">
             <div className="flex flex-col items-center">
               <img
@@ -65,7 +65,7 @@ const MortgageLandingPage = () => {
             </div>
           </div>
 
-          {/* Nav links */}
+          
           <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-10 font-bold text-sm sm:text-base text-center">
             <div className="relative">
               <button
@@ -164,7 +164,7 @@ const MortgageLandingPage = () => {
             </div>
           </div>
 
-          {/* Hero image + floating cards */}
+        
           <div className="flex-1 relative flex justify-center lg:justify-end items-end w-full">
             <div className="absolute -top-2 sm:top-10 left-1/2 -translate-x-1/2 lg:left-auto lg:-translate-x-0 lg:-left-4 xl:-left-16 z-20 flex items-center gap-2">
               <div className="flex flex-col items-center">
@@ -241,7 +241,7 @@ const MortgageLandingPage = () => {
       ✕
     </button>
 
-    {/* ONLY RESPONSIVE CHANGES HERE */}
+    
     <div className="px-4 sm:px-6 lg:px-6 py-4 sm:py-6">
 
       <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4">
@@ -254,7 +254,7 @@ const MortgageLandingPage = () => {
 
       <hr className="border-gray-300 mb-4 sm:mb-6" />
 
-      {/* EXACT SAME CONTENT */}
+      
       <p className="leading-normal text-[14px] sm:text-[15px] max-w-none">
         The Amazon CloudFront distribution is configured to block access from your country.
         We can't connect to the server for this app or website at this time. There might be too much traffic or a configuration error.

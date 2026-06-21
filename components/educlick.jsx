@@ -31,10 +31,10 @@ const EducationPanel = () => (
         ))}
       </div>
 
-      {/* Right side cards */}
+      
       <div className="flex flex-col gap-4">
 
-        {/* Featured video card */}
+        
         <div className="bg-white rounded-2xl p-4 sm:p-6 flex items-center justify-between gap-4">
           <div className="flex flex-col gap-4 sm:gap-6">
             <h2 className="text-base sm:text-lg font-bold text-gray-900 leading-tight max-w-[260px]">
@@ -52,7 +52,7 @@ const EducationPanel = () => (
           />
         </div>
 
-        {/* Bottom two cards */}
+        
         <div className="grid grid-cols-2 gap-3 sm:gap-4 flex-1">
           <div className="bg-white rounded-2xl p-4 sm:p-6 flex flex-col justify-between gap-4">
             <h3 className="text-sm sm:text-md font-bold text-gray-900 leading-snug">

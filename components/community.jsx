@@ -2,7 +2,7 @@ const CommunitySection = ({ setScheduleOpen }) => {
   return (
     <section className="bg-[#f5f5f5] py-16 sm:py-24 lg:py-30 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        {/* Left Side */}
+        
         <div className="text-center lg:text-left">
           <p className="text-[#006B2F] uppercase tracking-[3px] sm:tracking-[6px] font-bold text-base sm:text-xl mb-6 sm:mb-8">
             Our Community
