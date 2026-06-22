@@ -123,7 +123,7 @@ const categoryContent = {
     return(
   <div className="w-full bg-[#0f5132] p-4 sm:p-6 rounded-3xl shadow-2xl">
 
-    {/* Mobile: horizontal scrollable category pills */}
+    
     <div className="lg:hidden flex gap-2 overflow-x-auto pb-3 mb-4 scrollbar-hide">
       {categories.map((label) => (
         <button
@@ -140,10 +140,8 @@ const categoryContent = {
       ))}
     </div>
 
-    {/* Desktop: original 3-col grid */}
+    
     <div className="hidden lg:grid grid-cols-[1fr_1fr_2fr] gap-4 max-w-6xl mx-auto">
-
-      {/* Category buttons */}
       <div className="lg:col-span-2 grid grid-cols-2 gap-4 content-start">
        {categories.map((label) => (
   <button
@@ -160,11 +158,11 @@ const categoryContent = {
 ))}
       </div>
 
-      {/* Content cards */}
+      
       <ContentCards content={content} selectedCategory={selectedCategory} />
     </div>
 
-    {/* Mobile: content cards below pills */}
+    
     <div className="lg:hidden">
       <ContentCards content={content} selectedCategory={selectedCategory} />
     </div>
