@@ -39,26 +39,26 @@ export default function Loan({ setScheduleOpen }) {
         </div>
 
         <div className="relative flex justify-center mt-16 sm:mt-20 lg:mt-0">
-          <div className="w-full max-w-[480px] aspect-[4/5] sm:h-[600px] bg-green-700 rounded-[40px]"></div>
+          <div className="w-full max-w-[500px] aspect-[4/5] sm:h-[600px] bg-green-700 rounded-[20px] "></div>
 
           <img
             src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62b18/65d510dfb82945f90c2aa788_Adrian%20Webb%20WMS-p-800.png"
             alt="Advisor"
-            className="absolute bottom-0 h-[110%] w-full max-w-[480px] object-contain object-bottom sm:h-[680px] sm:w-[480px]"
+            className="absolute bottom-[2px]  h-[100%] w-full max-w-[480px] object-contain object-bottom sm:h-[680px] sm:w-[480px]  rounded-[20px]"
           />
 
-          <div className="absolute left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 top-auto bottom-0 sm:top-1/2 sm:-translate-y-1/2 bg-white rounded-[24px] sm:rounded-[30px] shadow-xl p-6 sm:p-8 w-[88%] sm:w-[300px]">
+          <div className="absolute left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 top-auto bottom-4 md:bottom-0 sm:top-1/2 sm:-translate-y-1/2 bg-white rounded-[24px] sm:rounded-[30px] shadow-xl p-5 sm:p-8 w-[68%] sm:w-[300px]">
             <h3 className="text-lg sm:text-xl font-bold text-black">Adrian Webb</h3>
 
-            <p className="text-gray-800 mt-2 text-sm">
+            <p className="text-gray-800 mt-2 text-xs">
               Senior Mortgage Advisor
             </p>
 
-            <p className="text-gray-800 text-sm mt-2">
+            <p className="text-gray-800 text-xs mt-2">
               NMLS ID: 811655
             </p>
 
-            <p className="text-gray-800 text-sm">
+            <p className="text-gray-800 text-xs">
               NMLS CO ID: 1815656
             </p>
 

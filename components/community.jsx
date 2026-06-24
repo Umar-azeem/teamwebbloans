@@ -2,13 +2,12 @@ const CommunitySection = ({ setScheduleOpen }) => {
   return (
     <section className="bg-[#f5f5f5] py-16 sm:py-24 lg:py-30 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-        
         <div className="text-center lg:text-left">
-          <p className="text-[#006B2F] uppercase tracking-[3px] sm:tracking-[6px] font-bold text-base sm:text-xl mb-6 sm:mb-8">
+          <p className="text-[#006B2F] uppercase tracking-[3px] sm:tracking-[6px] font-bold text-md sm:text-xl mb-6 sm:mb-8">
             Our Community
           </p>
 
-          <h2 className="text-[26px] sm:text-[32px] lg:text-[35px] leading-[1.2] font-semibold text-[#1f1f1f] mb-6 sm:mb-10">
+          <h2 className="text-[25px] sm:text-[40px] lg:text-[35px] leading-[1.2] font-bold text-[#1f1f1f] mb-4 sm:mb-10">
             Making An Impact In Our Local Communities.
           </h2>
 
@@ -17,36 +16,34 @@ const CommunitySection = ({ setScheduleOpen }) => {
             excited about the future as we continue to evolve to meet their
             needs.
           </p>
-
           <button
             onClick={() => setScheduleOpen(true)}
-            className="bg-[#006B2F] text-white px-4 py-3 sm:py-4 rounded-xl inline-flex items-center gap-3 sm:gap-4 text-base sm:text-xl font-semibold transition duration-300 hover:translate-y-1 mx-auto lg:mx-0"
+            className="bg-[#006B2F] w-full sm:w-auto flex items-center justify-center gap-3  text-white  px-6 py-4 rounded-xl font-bold transition transform duration-300 hover:-translate-y-1"
           >
             <img
-              src="https://cdn.prod.website-files.com/6463653eea7395f6535ff53c/646383f8ff0a8d874058f83e_ic-calendar-white.svg"
-              alt=""
-              className="w-4"
+              src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d509901b89bb3fd2a62b25_ic-calendar-white.svg"
+              alt="Calendar"
             />
             Schedule Intro Call
           </button>
 
-          <div className="mt-16 sm:mt-24 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 sm:gap-2 text-xl sm:text-2xl">
-            <div className="flex items-center gap-2">
-              <h3 className="font-bold text-[#111827] whitespace-nowrap">
+          <div className="mt-16 sm:mt-24 flex flex-row items-center justify-center md:justify-start gap-6 sm:gap-2 text-xl sm:text-2xl">
+            <div className=" flex flex-col md:flex-row items-center gap-2">
+              <h3 className="font-bold text-2xl  text-[#111827] whitespace-nowrap">
                 15+ Years
               </h3>
 
-              <p className="text-gray-600 leading-tight whitespace-nowrap text-base sm:text-2xl">
+              <p className="text-gray-600 leading-tight whitespace-nowrap text-sm font-light sm:text-2xl">
                 Of Serving Our <span className="block">Customers</span>
               </p>
             </div>
 
-            <div className="flex items-center gap-2">
-              <h3 className="font-bold text-[#111827] whitespace-nowrap">
+            <div className=" flex flex-col md:flex-row items-center gap-2">
+              <h3 className="font-bold text-2xl  text-[#111827] whitespace-nowrap">
                 3,000+
               </h3>
 
-              <p className="text-gray-600 leading-tight whitespace-nowrap text-base sm:text-2xl">
+              <p className="text-gray-600 text-sm font-light leading-tight whitespace-nowrap  sm:text-2xl">
                 Individual Loans
               </p>
             </div>

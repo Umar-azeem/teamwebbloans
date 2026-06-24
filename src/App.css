@@ -182,3 +182,30 @@
     border-right-color: var(--border);
   }
 }
+/* Width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track (background) */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Scroll thumb */
+::-webkit-scrollbar-thumb {
+  background: #04205D;
+  border-radius: 10px;
+}
+
+/* Hover effect */
+::-webkit-scrollbar-thumb:hover {
+  background: #02163f;
+}::-webkit-scrollbar {
+  width: 5px;
+}::-webkit-scrollbar {
+  height: 8px;
+}html {
+  scrollbar-width: thin;
+  scrollbar-color: #04205D #f1f1f1;
+}

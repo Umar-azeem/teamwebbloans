@@ -41,14 +41,14 @@ export default function MortgageCalculator({ setContactOpen }) {
         
         <div className="flex flex-col md:flex-row justify-between gap-6 mb-10">
           <div className="w-full md:max-w-lg">
-            <h1 className="text-green-600 font-bold uppercase tracking-wide text-base sm:text-lg">
+            <h1 className="text-green-600 font-bold uppercase text-center md:text-start tracking-wide text-md sm:text-lg">
               Mortgage Calculator
             </h1>
-            <h2 className="text-2xl sm:text-3xl font-bold text-black mt-3">
+            <h2 className="text-2xl md:text-3xl font-bold text-center md:text-start text-black mt-3">
               Estimate Your Monthly Mortgage Payment
             </h2>
           </div>
-          <div className="w-full md:max-w-md">
+          <div className="w-full md:max-w-md text-center md:text-start">
             <p className="text-gray-600 leading-relaxed text-sm sm:text-base">
               Take the guesswork out of home search by finding out what your
               estimated monthly payment on your mortgage could be.
@@ -60,7 +60,7 @@ export default function MortgageCalculator({ setContactOpen }) {
         <div className="flex flex-col lg:flex-row gap-6">
 
   
-          <div className="w-full lg:w-2/3 bg-white shadow-md rounded-xl p-5 sm:p-8">
+          <div className="w-full lg:w-2/3 bg-white shadow-md border-1 border-gray-400 rounded-xl p-5 sm:p-8">
             <h3 className="text-lg sm:text-xl font-semibold text-black mb-6">
               Enter your loan details below and we'll calculate your estimated
               monthly payment.
@@ -143,7 +143,7 @@ export default function MortgageCalculator({ setContactOpen }) {
           </div>
 
           
-          <div className="w-full lg:w-1/3 bg-black text-white rounded-xl p-6 sm:p-8 flex flex-col">
+          <div className="w-full lg:w-1/3 bg-[#202020] text-white rounded-xl p-6 sm:p-8 flex flex-col">
             <p className="text-gray-300 text-sm text-center">
               Your estimated monthly payment
             </p>
