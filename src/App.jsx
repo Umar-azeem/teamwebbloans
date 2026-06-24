@@ -151,26 +151,26 @@ const MortgageLandingPage = () => {
 
                 <div className="flex items-center gap-3">
                   <a
-                    href="#"
+                    href="https://www.facebook.com/adrian.webb.127"
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
                   >
-                    <Icon src={icons.facebook} size={18} />
+                    <Icon src={icons.facebook} size={18} className="text-black" />
                   </a>
                   <a
-                    href="#"
+                    href="https://www.instagram.com/adrian.webb.127/"
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
                   >
                     <Icon src={icons.instagram} size={18} />
                   </a>
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/in/adrian-webb-492b2910/"
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
                   >
                     <Icon src={icons.linkedin} size={18} />
                   </a>
                   <a
-                    href="#"
-                    className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
+                    href="https://www.youtube.com/channel/UCPdDvkQzRXzOt16uQ6J3sEA"
+                    className=" w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
                   >
                     <Icon src={icons.youtube} size={18} />
                   </a>
