@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client";
+import  { useState } from "react";
 import CommunitySection from "../components/community";
 import EducationPanel from "../components/educlick";
 import EducationSection from "../components/learnedu";
@@ -18,7 +19,7 @@ const Icon = ({ src, size = 20, className = "" }) => (
 
 const MortgageLandingPage = () => {
   const [educationOpen, setEducationOpen] = useState(false);
-  const [partnersOpen, setPartnersOpen] = useState(false);
+  // const [partnersOpen, setPartnersOpen] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [applyOpen, setApplyOpen] = useState(false);
