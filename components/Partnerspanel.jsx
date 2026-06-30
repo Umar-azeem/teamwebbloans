@@ -1,4 +1,5 @@
 import { X,  ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
  
 const partners = [
   {
@@ -46,15 +47,16 @@ const MobilePartnersPanel = ({ onClose }) => (
     {/* Partner buttons */}
     <div className="flex flex-col px-5 gap-3 pb-10">
       {partners.map((item) => (
-        <a
+        <Link
           key={item.label}
           to={item.href}
           rel="noreferrer"
+          onClick={onClose}
           className="w-full bg-[#006132] text-white font-bold text-lg py-5 px-6 rounded-2xl flex items-center justify-between hover:bg-[#004d26] transition"
         >
           {item.label}
           <ChevronRight size={20} className="flex-shrink-0 " />
-        </a>
+        </Link>
       ))}
     </div>
   </div>
