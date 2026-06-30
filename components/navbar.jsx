@@ -1,27 +1,27 @@
 import { useState, useEffect } from "react";
 import EducationPanel from "./educlick";
 import PartnersPanel from "./Partnerspanel";
+import { Link } from "react-router-dom";
 
 // ── Desktop Partners dropdown ─────────────────────────────────────────────────
 function DesktopPartnersDropdown({ onClose }) {
   return (
     <div className="absolute top-full left-0 mt-4 z-50 w-64 bg-white text-gray-900 rounded-xl shadow-2xl overflow-hidden">
       {[
-        { label: "Realtor", href: "/" },
-        { label: "Financial Planner", href: "/" },
-        { label: "Divorce Attorney", href: "/" },
+        { label: "Realtor", href: "/realtor" },
+        { label: "Financial Planner", href: "/FinancialPlanner" },
+        { label: "Divorce Attorney", href: "/DivorceAttorney" },
       ].map((item) => (
-        <a
+        <Link
           key={item.label}
-          href={item.href}
-          target="_blank"
+          to={item.href}
           rel="noreferrer"
           onClick={onClose}
           className="flex items-center justify-between px-5 py-3 font-semibold text-sm border-b border-gray-100 last:border-0 hover:bg-gray-50 transition"
         >
           {item.label}
           <span className="text-[#006132]">›</span>
-        </a>
+        </Link>
       ))}
     </div>
   );
@@ -82,12 +82,12 @@ function MobileMenu({
       {/* Nav links */}
       <nav className="flex flex-col px-6 mt-6 gap-1 flex-1">
         {/* Home */}
-        <a
-          href="/"
+        <Link
+          to="/"
           onClick={onClose}
           className="flex items-center justify-between text-white font-bold text-2xl py-5 border-b border-white/20 hover:text-gray-200 transition"
         >
-          Home
+          Home 
           <svg
             width="22"
             height="22"
@@ -101,7 +101,7 @@ function MobileMenu({
             <line x1="5" y1="12" x2="19" y2="12" />
             <polyline points="12 5 19 12 12 19" />
           </svg>
-        </a>
+        </Link>
 
         {/* Education */}
         <button
@@ -148,8 +148,8 @@ function MobileMenu({
 
       {/* Bottom CTA */}
       <div className="px-6 pb-10 pt-6 flex flex-col gap-4">
-        <a
-          href="tel:2067958411"
+        <Link
+          to="tel:2067958411"
           className="flex items-center gap-3 text-white font-bold text-lg hover:text-gray-200 transition"
         >
           <svg
@@ -165,7 +165,7 @@ function MobileMenu({
             <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.7A2 2 0 012 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
           </svg>
           (206) 795-8411
-        </a>
+        </Link>
         <button
           onClick={() => {
             onClose();
@@ -307,22 +307,22 @@ export default function Navbar() {
               )}
             </div>
 
-            <a
-              href="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/67364b7d6d3b1b1c907a9e0d_Required%20Documentation%20List.pdf"
+            <Link
+              to="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/67364b7d6d3b1b1c907a9e0d_Required%20Documentation%20List.pdf"
               target="_blank"
               rel="noreferrer"
               className="hover:text-gray-200 transition"
             >
               Required Documentation List
-            </a>
+            </Link>
           </div>
 
           {/* Right side */}
           <div className="flex items-center gap-3">
             {/* Mobile icon buttons */}
             <div className="flex items-center gap-2 lg:hidden">
-              <a
-                href="tel:2067958411"
+              <Link
+                to="tel:2067958411"
                 aria-label="Call us"
                 className="w-10 h-10 rounded-full flex items-center justify-center bg-white text-[#006132] transition"
               >
@@ -338,7 +338,7 @@ export default function Navbar() {
                 >
                   <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.7A2 2 0 012 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 9.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
                 </svg>
-              </a>
+              </Link>
               <button
                 aria-label="Schedule appointment"
                 className="w-10 h-10 rounded-full flex items-center justify-center bg-white text-[#006132] transition"
@@ -363,8 +363,8 @@ export default function Navbar() {
 
             {/* Desktop phone + Apply Now */}
             <div className="hidden lg:flex items-center gap-6">
-              <a
-                href="tel:2067958411"
+              <Link
+                to="tel:2067958411"
                 className="flex items-center gap-2 text-white font-bold hover:text-gray-200 transition"
               >
                 <img
@@ -373,7 +373,7 @@ export default function Navbar() {
                   className="w-4 h-4"
                 />
                 (206) 795-8411
-              </a>
+              </Link>
               <button
                 onClick={() => setApplyOpen(true)}
                 className="bg-white text-[#006132] px-6 py-3 rounded-xl font-semibold transition transform duration-300 hover:-translate-y-1"

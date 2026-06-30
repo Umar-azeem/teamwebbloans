@@ -91,7 +91,6 @@ const categoryContent = {
   },
 };
 
-// ── Logo ──────────────────────────────────────────────────────────────────────
 const Logo = () => (
   <img
     src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d6f053f3aaee0cbfc8fac7_new-logo.png"
@@ -100,7 +99,6 @@ const Logo = () => (
   />
 );
 
-// ── Content cards (desktop + mobile detail view) ──────────────────────────────
 const ContentCards = ({ content, selectedCategory }) => (
   <div className="flex flex-col max-w-2xl gap-4 ">
     {/* Main video card */}
@@ -151,7 +149,6 @@ const ContentCards = ({ content, selectedCategory }) => (
   </div>
 );
 
-// ── Mobile: category list screen ──────────────────────────────────────────────
 const MobileCategoryList = ({ onSelect, onClose }) => (
   <div className=" fixed inset-0 z-[150] bg-white flex flex-col overflow-y-auto">
     {/* Header */}
@@ -187,7 +184,6 @@ const MobileCategoryList = ({ onSelect, onClose }) => (
   </div>
 );
 
-// ── Mobile: category detail screen ────────────────────────────────────────────
 const MobileCategoryDetail = ({ category, onBack, onClose }) => {
   const content = categoryContent[category] || categoryContent["Mortgage 101"];
   return (
@@ -220,7 +216,6 @@ const MobileCategoryDetail = ({ category, onBack, onClose }) => {
   );
 };
 
-// ── Main EducationPanel ───────────────────────────────────────────────────────
 const EducationPanel = ({ onClose }) => {
   const [selectedCategory, setSelectedCategory] = useState("Mortgage 101");
   const [mobileView, setMobileView] = useState("list"); // "list" | "detail"
@@ -233,7 +228,6 @@ const EducationPanel = ({ onClose }) => {
 
   return (
     <>
-      {/* ── Mobile: list screen ── */}
       {mobileView === "list" && (
         <div className="lg:hidden">
           <MobileCategoryList
@@ -243,7 +237,6 @@ const EducationPanel = ({ onClose }) => {
         </div>
       )}
 
-      {/* ── Mobile: detail screen ── */}
       {mobileView === "detail" && mobileCategory && (
         <div className="lg:hidden">
           <MobileCategoryDetail
@@ -254,10 +247,8 @@ const EducationPanel = ({ onClose }) => {
         </div>
       )}
 
-      {/* ── Desktop: mega panel ── */}
     <div className="p-2"><div className=" hidden lg:block w-full bg-[#006132] p-6 shadow-2xl ">
         <div className="grid grid-cols-[1.9fr_2fr] gap-6 max-w-7xl mx-auto ">
-          {/* Left: category grid */}
           <div className=" grid grid-cols-2 gap-4 content-start">
             {categories.map((label) => (
               <button
@@ -274,7 +265,6 @@ const EducationPanel = ({ onClose }) => {
             ))}
           </div>
 
-          {/* Right: content cards */}
           <ContentCards
             content={categoryContent[selectedCategory] || categoryContent["Mortgage 101"]}
             selectedCategory={selectedCategory}

@@ -7,11 +7,11 @@ export default function Loan({ setScheduleOpen }) {
   ];
 
   return (
-    <section className="bg-[#f5f5f5] py-12 px-4 sm:py-16 sm:px-6">
+    <section className="bg-[#006132]py-12 px-4 sm:py-16 sm:px-6">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-10 lg:gap-12 items-center">
 
         <div className="text-center lg:text-left">
-          <p className="text-green-800 uppercase tracking-[0.2em] sm:tracking-[0.3em] font-bold mb-4 text-sm sm:text-base">
+          <p className="text-[#006132] uppercase tracking-[0.2em] sm:tracking-[0.3em] font-bold mb-4 text-sm sm:text-base">
             Let's Get Started!
           </p>
 
@@ -27,7 +27,7 @@ export default function Loan({ setScheduleOpen }) {
 
           <button
             onClick={() => setScheduleOpen(true)}
-            className="mt-8 sm:mt-10 inline-flex items-center gap-3 bg-green-700 hover:bg-green-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold transition mx-auto lg:mx-0"
+            className="mt-8 sm:mt-10 inline-flex items-center gap-3 bg-[#006132] hover:bg-green-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-semibold transition mx-auto lg:mx-0"
           >
             <img
               src="https://cdn.prod.website-files.com/6463653eea7395f6535ff53c/646383f8ff0a8d874058f83e_ic-calendar-white.svg"
@@ -39,15 +39,15 @@ export default function Loan({ setScheduleOpen }) {
         </div>
 
         <div className="relative flex justify-center mt-16 sm:mt-20 lg:mt-0">
-          <div className="w-full max-w-[500px] aspect-[4/5] sm:h-[600px] bg-green-700 rounded-[20px] "></div>
+          <div className="w-full max-w-[500px] aspect-[4/5] sm:h-[600px] bg-[#006132] rounded-[20px] "></div>
 
           <img
             src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62b18/65d510dfb82945f90c2aa788_Adrian%20Webb%20WMS-p-800.png"
             alt="Advisor"
-            className="absolute bottom-[2px]  h-[100%] w-full max-w-[480px] object-contain object-bottom sm:h-[680px] sm:w-[480px]  rounded-[20px]"
+            className="absolute bottom-[2px]  h-[100%] w-full max-w-[650px] object-contain object-bottom md:h-[680px] md:w-[480px]  rounded-[20px]"
           />
 
-          <div className="absolute left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 top-auto bottom-4 md:bottom-0 sm:top-1/2 sm:-translate-y-1/2 bg-white rounded-[24px] sm:rounded-[30px] shadow-xl p-5 sm:p-8 w-[68%] sm:w-[300px]">
+          <div className=" absolute  left-1/2 -translate-x-1/2 sm:left-0 sm:translate-x-0 top-auto bottom-4 md:bottom-0 sm:top-90 sm:-translate-y-1/2 bg-white rounded-[24px] sm:rounded-[30px] shadow-xl p-5 sm:p-8 w-[68%] sm:w-[300px]">
             <h3 className="text-lg sm:text-xl font-bold text-black">Adrian Webb</h3>
 
             <p className="text-gray-800 mt-2 text-xs">
@@ -66,7 +66,7 @@ export default function Loan({ setScheduleOpen }) {
               {socialIcons.map((icon, index) => (
                 <div
                   key={index}
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-500 flex items-center justify-center hover:bg-green-700 transition"
+                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-gray-500 flex items-center justify-center hover:bg-[#006132] transition"
                 >
                   <img src={icon} alt="" className="w-5 h-5" />
                 </div>

@@ -1,13 +1,13 @@
 const CommunitySection = ({ setScheduleOpen }) => {
   return (
-    <section className="bg-[#f5f5f5] py-16 sm:py-24 lg:py-30 px-4 sm:px-6 lg:px-8">
+    <section className=" py-16 sm:py-24 lg:py-30 px-4 sm:px-6 lg:px-1">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
         <div className="text-center lg:text-left">
-          <p className="text-[#006B2F] uppercase tracking-[3px] sm:tracking-[6px] font-bold text-md sm:text-xl mb-6 sm:mb-8">
+          <p className="text-[#006B2F] uppercase tracking-[3px] sm:tracking-[6px] font-extrabold text-md sm:text-lg mb-6 sm:mb-8">
             Our Community
           </p>
 
-          <h2 className="text-[25px] sm:text-[40px] lg:text-[35px] leading-[1.2] font-bold text-[#1f1f1f] mb-4 sm:mb-10">
+          <h2 className="text-[25px] sm:text-[40px] lg:text-[36px] leading-[1.2] font-semibold text-[#1f1f1f] mb-4 sm:mb-10">
             Making An Impact In Our Local Communities.
           </h2>
 
@@ -27,9 +27,9 @@ const CommunitySection = ({ setScheduleOpen }) => {
             Schedule Intro Call
           </button>
 
-          <div className="mt-16 sm:mt-24 flex flex-row items-center justify-center md:justify-start gap-6 sm:gap-2 text-xl sm:text-2xl">
+          <div className="mt-10 sm:mt-14 flex flex-row items-center justify-center md:justify-start gap-6 sm:gap-2 text-xl sm:text-2xl">
             <div className=" flex flex-col md:flex-row items-center gap-2">
-              <h3 className="font-bold text-2xl  text-[#111827] whitespace-nowrap">
+              <h3 className="font-bold text-2xl md:text-4xl  text-[#111827] whitespace-nowrap">
                 15+ Years
               </h3>
 
@@ -39,7 +39,7 @@ const CommunitySection = ({ setScheduleOpen }) => {
             </div>
 
             <div className=" flex flex-col md:flex-row items-center gap-2">
-              <h3 className="font-bold text-2xl  text-[#111827] whitespace-nowrap">
+              <h3 className="font-bold text-2xl md:text-4xl  text-[#111827] whitespace-nowrap">
                 3,000+
               </h3>
 
@@ -50,11 +50,11 @@ const CommunitySection = ({ setScheduleOpen }) => {
           </div>
         </div>
 
-        <div className="relative flex justify-center mt-4 lg:mt-0">
+        <div className="relative flex justify-center mt-4 lg:mt-0 bottom-12 ">
           <img
             src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/6632bb747bb4d01bd5a2bb57_Miller%20and%20open.jpg"
             alt="Community"
-            className="w-full max-w-[760px] h-[280px] sm:h-[400px] lg:h-[550px] object-cover rounded-xl lg:rounded-none"
+            className="w-full max-w-[490px] h-[280px] sm:h-[400px] lg:h-[370px] object-cover rounded-xl lg:rounded-none"
           />
 
           <div className="absolute -bottom-10 sm:-bottom-12 left-1/2 -translate-x-1/2 bg-white rounded-[18px] sm:rounded-[22px] shadow-xl px-4 py-4 flex items-center gap-4 sm:gap-8 w-[90%] sm:w-[420px]">

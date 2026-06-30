@@ -1,17 +1,17 @@
-import { X, ArrowLeft, ChevronRight } from "lucide-react";
-
+import { X,  ChevronRight } from "lucide-react";
+ 
 const partners = [
   {
     label: "Realtor",
-    href: "/",
+    href: "/Realtor",
   },
   {
     label: "Financial Planner ",
-    href: "/",
+    href: "/FinancialPlanner",
   },
   {
     label: "Divorce Attorney",
-    href: "/",
+    href: "/DivorceAttorney",
   },
 ];
 
@@ -49,7 +49,7 @@ const MobilePartnersPanel = ({ onClose }) => (
         <a
           key={item.label}
           href={item.href}
-          target="_blank"
+          
           rel="noreferrer"
           className="w-full bg-[#006132] text-white font-bold text-lg py-5 px-6 rounded-2xl flex items-center justify-between hover:bg-[#004d26] transition"
         >
@@ -61,7 +61,6 @@ const MobilePartnersPanel = ({ onClose }) => (
   </div>
 );
 
-// ── Desktop dropdown Partners panel ───────────────────────────────────────────
 const DesktopPartnersPanel = ({ onClose }) => (
   <div className="absolute top-full left-0 mt-4 z-50 w-64 bg-white text-gray-900 rounded-xl shadow-2xl overflow-hidden">
     {partners.map((item) => (

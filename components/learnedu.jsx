@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 
 const cards = [
   "First Time Homebuyer",
@@ -14,7 +14,7 @@ const cards = [
   "Home Seller",
 ];
 
-const EducationSection = ({ setScheduleOpen,setContactOpen }) => {
+const EducationSection = ({ setScheduleOpen, setContactOpen }) => {
   const [index, setIndex] = useState(0);
 
   const getVisibleCount = () => {
@@ -51,16 +51,14 @@ const EducationSection = ({ setScheduleOpen,setContactOpen }) => {
   const canNext = index < cards.length - visibleCount;
 
   return (
-    <div className="w-full bg-[#F5F5F5] py-12 md:py-20   rounded-2xl mt-3 mb-3">
+    <div className="w-full bg-[#F5F5F5] py-12  rounded-2xl mt-3 mb-3">
       <div className="flex flex-col lg:flex-row justify-between gap-10">
-
-        
-        <div className="w-full lg:w-[600px] pl-3">
-          <p className="text-[#006132] font-bold tracking-[4px] mb-6 text-sm">
+        <div className="w-full lg:w-[600px] pl-8">
+          <p className="text-[#006B2F] uppercase text-center  md:text-start tracking-[3px] sm:tracking-[6px] font-extrabold text-md sm:text-lg mb-6 sm:mb-8">
             EDUCATION
           </p>
 
-          <h1 className="text-2xl sm:text-3xl mx-5 font-bold text-gray-900 text-center leading-tight">
+          <h1 className="text-[25px] text-center md:text-start sm:text-[40px] lg:text-[36px] leading-[1.2] font-semibold text-[#1f1f1f] mb-4 sm:mb-10">
             Learn More About Us And Fit Your Unique Needs
           </h1>
 
@@ -68,29 +66,25 @@ const EducationSection = ({ setScheduleOpen,setContactOpen }) => {
             Here to guide you along your home buying journey:
           </p>
 
-          <div className="hidden md:flex flex-col sm:flex-row gap-3 mt-8">
+          <div className="w-full hidden md:flex flex-col sm:flex-row gap-3 mt-8">
             <button
               onClick={() => setScheduleOpen(true)}
-              className="bg-[#006132]   text-white px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-1"
+              className="bg-[#006132] text-[16px] gap-2  text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center "
             >
-              Schedule Intro Call <ArrowRight size={18} />
+             <Calendar className="w-4 h-4"/> Schedule Intro Call <ArrowRight size={18} />
             </button>
 
             <button
-             onClick={() => setContactOpen(true)}
-             className="border border-gray-800 px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-black">
+              onClick={() => setContactOpen(true)}
+              className="border-2 border-gray-800  text-[16px] px-6 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-black"
+            >
               Quick Contact <ArrowRight size={18} />
             </button>
           </div>
         </div>
 
-        
-        <div className="w-full lg:w-[650px] pl-10">
-
-        
+        <div className="w-full lg:w-[650px] pl-10 md:pl-0 flex flex-col justify-center py-0 md:py-16">
           <div className="overflow-hidden">
-
-            
             <div
               className="flex  gap-6 transition-transform duration-500"
               style={{ transform: `translateX(-${index * step}px)` }}
@@ -98,15 +92,17 @@ const EducationSection = ({ setScheduleOpen,setContactOpen }) => {
               {cards.map((item, i) => (
                 <div
                   key={i}
-                  className="min-w-[200px] h-[260px] md:min-w-[250px] md:h-[300px]  border-t-10 border-black bg-[#006132] text-white rounded-b-3xl p-6 flex flex-col justify-between flex-shrink-0"
+                  className="min-w-[200px] h-[260px] md:min-w-[270px] md:h-[300px]  border-t-10 border-black bg-[#006132] text-white rounded-b-3xl p-6 flex flex-col justify-between flex-shrink-0"
                 >
-                  <div className="flex items-center gap-2 ">
+                  <div className="flex items-center  ">
                     <img
-                      className="w-4 h-4 object-contain"
+                      className="w-5 h-5 object-contain"
                       src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d6f053f3aaee0cbfc8fac7_new-logo.png"
                       alt="logo"
                     />
-                    <span className="text-[7px] tracking-wider">ADRIAN WEBB</span>
+                    <span className="text-[7px] tracking-wider">
+                      ADRIAN WEBB
+                    </span>
                   </div>
 
                   <h2 className="text-3xl font-bold max-w-[200px] ">{item}</h2>
@@ -119,13 +115,14 @@ const EducationSection = ({ setScheduleOpen,setContactOpen }) => {
             </div>
           </div>
 
-          
           <div className="flex items-center gap-4 mt-6 justify-center">
             <button
               onClick={prev}
               disabled={!canPrev}
               className={`w-12 h-12 rounded-full text-white shadow flex items-center justify-center transition-opacity duration-200 ${
-                canPrev ? "bg-black" : "bg-gray-400 opacity-50 cursor-not-allowed"
+                canPrev
+                  ? "bg-black"
+                  : "bg-gray-400 opacity-50 cursor-not-allowed"
               }`}
             >
               <ChevronLeft />
@@ -135,13 +132,14 @@ const EducationSection = ({ setScheduleOpen,setContactOpen }) => {
               onClick={next}
               disabled={!canNext}
               className={`w-12 h-12 rounded-full text-white flex items-center justify-center transition-opacity duration-200 ${
-                canNext ? "bg-black" : "bg-gray-400 opacity-50 cursor-not-allowed"
+                canNext
+                  ? "bg-black"
+                  : "bg-gray-400 opacity-50 cursor-not-allowed"
               }`}
             >
               <ChevronRight />
             </button>
           </div>
-
         </div>
       </div>
     </div>

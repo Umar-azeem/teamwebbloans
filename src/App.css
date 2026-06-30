@@ -1,6 +1,6 @@
 .counter {
   font-size: 16px;
-  padding: 5px 10px;
+  padding: 3px 10px;
   border-radius: 5px;
   color: var(--accent);
   background: var(--accent-bg);
@@ -208,4 +208,40 @@
 }html {
   scrollbar-width: thin;
   scrollbar-color: #04205D #f1f1f1;
+}
+@keyframes blowUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+[data-animate] {
+  opacity: 0;
+  transform: translateY(40px) scale(0.96);
+  will-change: opacity, transform;
+}
+
+[data-animate].anim-visible {
+  animation: blowUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+[data-animate][data-delay="0"] { animation-delay: 0ms; }
+[data-animate][data-delay="1"] { animation-delay: 120ms; }
+[data-animate][data-delay="2"] { animation-delay: 240ms; }
+[data-animate][data-delay="3"] { animation-delay: 360ms; }
+[data-animate][data-delay="4"] { animation-delay: 480ms; }
+[data-animate][data-delay="5"] { animation-delay: 600ms; }
+[data-animate][data-delay="6"] { animation-delay: 720ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate] {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 }

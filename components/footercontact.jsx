@@ -1,13 +1,11 @@
 export default function Footer() {
   return (
-    <div className="bg-[#1c1c1c] text-white rounded-t-3xl px-6 py-10 md:px-10 max-w-7xl mx-auto mt-10">
-
-      
-      <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center">
+    
+    <div className="bg-[#1c1c1c]  text-white rounded-t-3xl px-6 py-10 md:px-10 w-full mx-auto mt-10">
+      <div className="flex flex-col gap-4 md:flex-row md:justify-between md:items-center ">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-snug">
           Ready To Apply For Your <br className="hidden sm:block" /> Home Loan?
         </h2>
-
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
           <input
             type="email"
@@ -19,16 +17,10 @@ export default function Footer() {
           </button>
         </div>
       </div>
-
       <hr className="border-gray-700 my-10" />
-
-      
       <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-10">
-
-        
         <div>
           <h3 className="text-xl font-semibold mb-4">Contact Me</h3>
-
           <p className="mb-2 flex items-center gap-2">
             <img
               src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d509901b89bb3fd2a62b87_phone-white.svg"
@@ -37,7 +29,6 @@ export default function Footer() {
             />
             <span>(206) 795-8411</span>
           </p>
-
           <p className="mb-2 flex items-center gap-2">
             <img
               src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d509901b89bb3fd2a62b81_mail-white.svg"
@@ -46,7 +37,6 @@ export default function Footer() {
             />
             <span className="break-all">adrian@teamwebbloans.com</span>
           </p>
-
           <p className="mb-4 flex items-start gap-2">
             <img
               src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d509901b89bb3fd2a62b96_location-on-white.svg"
@@ -55,8 +45,6 @@ export default function Footer() {
             />
             <span>128 Union Street, Suite 101 <br /> New Bedford, MA 02740</span>
           </p>
-
-          
           <div className="flex gap-3 mb-6">
             {[
               { src: "https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d509901b89bb3fd2a62afd_ri_facebook-fill-white.svg", alt: "Facebook" },
@@ -78,7 +66,6 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Logo + Scroll-to-top */}
         <div className="flex flex-row-reverse md:flex-col items-center md:items-end justify-between md:justify-end gap-6 md:gap-0">
           <button className="w-14 h-14 rounded-full bg-green-700 flex items-center justify-center flex-shrink-0">
             <img
@@ -106,5 +93,6 @@ export default function Footer() {
 
       </div>
     </div>
+    
   );
 }
