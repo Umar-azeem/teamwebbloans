@@ -8,7 +8,7 @@ function DesktopPartnersDropdown({ onClose }) {
   return (
     <div className="absolute top-full left-0 mt-4 z-50 w-64 bg-white text-gray-900 rounded-xl shadow-2xl overflow-hidden">
       {[
-        { label: "Realtor", href: "/realtor" },
+        { label: "Realtor", href: "/Realtor" },
         { label: "Financial Planner", href: "/FinancialPlanner" },
         { label: "Divorce Attorney", href: "/DivorceAttorney" },
       ].map((item) => (

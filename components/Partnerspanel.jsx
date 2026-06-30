@@ -48,13 +48,12 @@ const MobilePartnersPanel = ({ onClose }) => (
       {partners.map((item) => (
         <a
           key={item.label}
-          href={item.href}
-          
+          to={item.href}
           rel="noreferrer"
           className="w-full bg-[#006132] text-white font-bold text-lg py-5 px-6 rounded-2xl flex items-center justify-between hover:bg-[#004d26] transition"
         >
           {item.label}
-          <ChevronRight size={20} className="flex-shrink-0" />
+          <ChevronRight size={20} className="flex-shrink-0 " />
         </a>
       ))}
     </div>
