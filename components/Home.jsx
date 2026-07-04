@@ -1,19 +1,16 @@
+import { Link } from "react-router-dom";
 import Loan from "./applyLoan";
 import CommunitySection from "./community";
 import CreditBuild from "./CreditBuid";
 import FAQ from "./Faq";
-import Footer from "./footercontact";
-import FooterText from "./footerText";
+
 import EducationSection from "./learnedu";
 import MortgageCalculator from "./MortageCal";
 
-
-
- const  Home = ({ setScheduleOpen, setContactOpen, }) => {
-
-    const Icon = ({ src, size = 20, className = "" }) => (
-  <img src={src} width={size} height={size} className={className} alt="" />
-);
+const Home = ({ setScheduleOpen, setContactOpen }) => {
+  const Icon = ({ src, size = 20, className = "" }) => (
+    <img src={src} width={size} height={size} className={className} alt="" />
+  );
   const icons = {
     phone: "https://img.icons8.com/ios/50/ffffff/phone.png",
     chevronDown: "https://img.icons8.com/ios/50/ffffff/expand-arrow.png",
@@ -28,8 +25,8 @@ import MortgageCalculator from "./MortageCal";
   return (
     <>
       {/* Hero Section */}
-      <main className="relative z-10 bg-[#006132] rounded-2xl w-full mx-auto flex flex-col-reverse lg:flex-row items-center px-4 sm:px-6 lg:px-8 pt-18 pb-20 gap-10">
-        <div className="flex-1 max-w-2xl w-full text-center lg:text-left">
+      <main className="relative z-10 bg-[#006132] rounded-2xl w-full mx-auto flex flex-col-reverse lg:flex-row items-center px-0 sm:px-6 lg:px-8 pt-18 pb-20 gap-10">
+        <div className="flex-1 max-w-2xl w-full text-center px-4 lg:text-left">
           <div className="hidden md:flex flex-col">
             <p className="text-md font-bold tracking-[0.2em] mb-6 uppercase">
               Hi, I'm Adrian Webb
@@ -87,7 +84,7 @@ import MortgageCalculator from "./MortageCal";
             <h2 className="text-2xl sm:text-3xl font-bold">100K+</h2>
           </div>
 
-          <div className="relative w-full max-w-[450px]">
+          <div className="relative w-full max-w-[450px] ">
             <div className="flex flex-col text-center p-6 md:hidden">
               <p className="text-md font-bold tracking-[0.2em] mb-6 uppercase">
                 Hi, I'm Adrian Webb
@@ -102,7 +99,7 @@ import MortgageCalculator from "./MortageCal";
             <img
               src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62b18/65d510dfb82945f90c2aa788_Adrian%20Webb%20WMS-p-1080.png"
               alt="Adrian Webb"
-              className="w-full h-[400px] sm:h-[480px] lg:h-[550px] object-cover object-top rounded-2xl"
+              className="min-w-full h-[500px] sm:h-[480px] lg:h-[550px] object-cover object-top rounded-2xl"
               style={{
                 maskImage:
                   "linear-gradient(to bottom, black 80%, transparent 100%)",
@@ -111,15 +108,15 @@ import MortgageCalculator from "./MortageCal";
               }}
             />
 
-            <div className="absolute bottom-4 sm:bottom-8 right-0 left-0 sm:left-auto mx-auto sm:mx-0 bg-white text-gray-900 p-5 sm:p-6 rounded-2xl shadow-2xl w-[88%] sm:w-64">
-              <h3 className="text-xl font-bold mb-2">Adrian Webb</h3>
+            <div className="absolute bottom-4 flex flex-col justify-center sm:bottom-8 right-0 left-0 sm:left-auto mx-auto sm:mx-0 bg-white text-gray-900 p-5  sm:p-2 rounded-2xl shadow-2xl w-[70%] sm:w-64">
+              <h3 className="text-lg font-bold mb-2">Adrian Webb</h3>
               <p className="text-gray-600 text-sm mb-1">
                 Senior Mortgage Advisor
               </p>
               <p className="text-gray-500 text-xs mb-1">NMLS ID: 811655</p>
               <p className="text-gray-500 text-xs mb-4">NMLS CO ID: 1815656</p>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <a
                   href="https://www.facebook.com/adrian.webb.127"
                   className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
@@ -167,9 +164,21 @@ import MortgageCalculator from "./MortageCal";
         <MortgageCalculator setContactOpen={setContactOpen} />
         <FAQ />
         <Loan setScheduleOpen={setScheduleOpen} />
-        
+
+        <div className="flex justify-between mt-10 p-3">
+          <Link to="/Tools">
+            <button className="bg-green-700  px-6 py-3 rounded-xl transition-transform duration-300 hover:translate-y-1 w-32 sm:w-auto">
+              Tools
+            </button>
+          </Link>
+          <Link to="/Location">
+            <button className="bg-green-700 px-6 py-3 rounded-xl transition-transform duration-300 hover:translate-y-1 w-32 sm:w-auto">
+              Location
+            </button>
+          </Link>
+        </div>
       </div>
     </>
   );
 };
-export default Home
+export default Home;

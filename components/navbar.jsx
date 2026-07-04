@@ -87,7 +87,7 @@ function MobileMenu({
           onClick={onClose}
           className="flex items-center justify-between text-white font-bold text-2xl py-5 border-b border-white/20 hover:text-gray-200 transition"
         >
-          Home 
+          Home
           <svg
             width="22"
             height="22"
@@ -242,11 +242,14 @@ export default function Navbar() {
           {/* Desktop logo */}
           <div className="hidden lg:flex items-center gap-3">
             <div className="flex flex-col items-center">
-              <img
-                className="w-16 sm:w-20 h-8 sm:h-10 object-contain"
-                src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d6f053f3aaee0cbfc8fac7_new-logo.png"
-                alt="Adrian Webb logo"
-              />
+              <Link to="/">
+                {" "}
+                <img
+                  className="w-16 sm:w-20 h-8 sm:h-10 object-contain"
+                  src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d6f053f3aaee0cbfc8fac7_new-logo.png"
+                  alt="Adrian Webb logo"
+                />
+              </Link>
               <span className="text-[10px] tracking-wider font-bold text-white">
                 ADRIAN WEBB
               </span>

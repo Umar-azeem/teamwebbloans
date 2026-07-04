@@ -1,4 +1,9 @@
-export default function Loan({ setScheduleOpen }) {
+import { useState } from "react";
+import ScheduleCallModal from "./scheduleCallModal";
+
+export default function Loan() {
+    const [scheduleOpen, setScheduleOpen] = useState(false);
+  
   const socialIcons = [
     "https://api.iconify.design/flowbite:facebook-solid.svg?color=%23000000",
     "https://api.iconify.design/famicons:logo-instagram.svg?color=%23000000",
@@ -75,6 +80,13 @@ export default function Loan({ setScheduleOpen }) {
           </div>
         </div>
       </div>
+      <ScheduleCallModal
+              isOpen={scheduleOpen}
+              onClose={() => setScheduleOpen(false)}
+              onConfirm={(appointmentDetails) => {
+                console.log("Appointment confirmed:", appointmentDetails);
+              }}
+            />
     </section>
   );
 }

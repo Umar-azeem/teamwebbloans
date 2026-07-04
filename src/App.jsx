@@ -1,16 +1,18 @@
 "use client";
 import { useState } from "react";
 import EducationPanel from "../components/educlick";
-import ScheduleCallModal from "../components/schedulemoadal";
+import ScheduleCallModal from "../components/scheduleCallModal";
 import QuickContactModal from "../components/quickClick";
 import Navbar from "../components/navbar";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, } from "react-router-dom";
 import Home from "../components/Home";
 import Realtor from "../components/Realtor.jsx";
 import Footer from "../components/footercontact.jsx";
 import FooterText from "../components/footerText.jsx";
 import FinancialPlanner from "../components/FinancialPlanner.jsx";
 import DivorceAttorney from "../components/Divorceattorney.jsx";
+import Tools from "../components/Tools.jsx";
+import Location from "../components/Location.jsx";
 
 const MortgageLandingPage = () => {
   const [educationOpen, setEducationOpen] = useState(false);
@@ -19,7 +21,7 @@ const MortgageLandingPage = () => {
 
   return (
     <div className="p-2">
-      <div className="rounded-3xl  text-white font-sans overflow-hidden relative">
+      <div className="rounded-3xl text-white font-sans overflow-hidden relative">
         <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
           <svg width="600" height="700" viewBox="0 0 600 700" fill="none">
             <path
@@ -30,12 +32,10 @@ const MortgageLandingPage = () => {
             />
           </svg>
         </div>
-
         <Navbar
           educationOpen={educationOpen}
           setEducationOpen={setEducationOpen}
         />
-
         <Routes>
           <Route
             path="/"
@@ -50,8 +50,8 @@ const MortgageLandingPage = () => {
           <Route path="/Realtor" element={<Realtor />} />
           <Route path="/FinancialPlanner" element={<FinancialPlanner />} />
           <Route path="/DivorceAttorney" element={<DivorceAttorney />} />
-
-          
+          <Route path="/Tools" element={<Tools />} />
+          <Route path="/Location" element={<Location />} />
         </Routes>
         {educationOpen && (
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -61,13 +61,20 @@ const MortgageLandingPage = () => {
       </div>
 
       {/* Modals */}
-      {scheduleOpen && (
-        <ScheduleCallModal onClose={() => setScheduleOpen(false)} />
-      )}
+      <ScheduleCallModal
+        isOpen={scheduleOpen}
+        onClose={() => setScheduleOpen(false)}
+        onConfirm={(appointmentDetails) => {
+          console.log("Appointment confirmed:", appointmentDetails);
+        }}
+      />
+
       {contactOpen && (
         <QuickContactModal onClose={() => setContactOpen(false)} />
       )}
-      <Footer/>
+
+         
+      <Footer />
       <FooterText />
     </div>
   );

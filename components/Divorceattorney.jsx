@@ -13,11 +13,13 @@ import {
 } from "lucide-react";
 import Loan from "./applyLoan";
 import { Link } from "react-router-dom";
+import ScheduleCallModal from "./scheduleCallModal";
 
 const videos = [
   {
     id: 1,
-    title: "Navigating Real Estate Decisions in Divorce: Top 3 Mortgage Mistakes to Avoid",
+    title:
+      "Navigating Real Estate Decisions in Divorce: Top 3 Mortgage Mistakes to Avoid",
     thumbnail:
       "https://cdn.prod.website-files.com/65d509901b89bb3fd2a62b18/65fb20fc48b88dfbf0ddc948_divorceattorney2.png",
     videoUrl:
@@ -183,31 +185,33 @@ const AnimatedText = ({ text, delay = 0, className = "" }) => {
   );
 };
 
-function DivorceAttorney({ setScheduleOpen }) {
-  const [activeId, setActiveId] = useState(3);
-  const [playing, setPlaying] = useState(false);
-
-  const activeVideo = videos.find((v) => v.id === activeId) || videos[0];
-  const [openIndex, setOpenIndex] = useState(null);
-
-  const toggleQuestion = (index) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
-
-  const handleVideoEnd = () => {
-    setIsVideoOpen(false);
-  };
-
+function DivorceAttorney() {
+  // Define getVisibleCount FIRST before using it in useState
   const getVisibleCount = () => {
     if (typeof window === "undefined") return 3;
     if (window.innerWidth < 640) return 1;
     if (window.innerWidth < 1024) return 2;
     return 3;
   };
-  const [index, setIndex] = useState(0);
 
+  // State management - now getVisibleCount is defined
+  const [activeId, setActiveId] = useState(3);
+  const [playing, setPlaying] = useState(false);
+  const [openIndex, setOpenIndex] = useState(null);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [index, setIndex] = useState(0);
   const [visibleCount, setVisibleCount] = useState(getVisibleCount);
+
+  const activeVideo = videos.find((v) => v.id === activeId) || videos[0];
+
+  const toggleQuestion = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const handleVideoEnd = () => {
+    setIsVideoOpen(false);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -232,6 +236,7 @@ function DivorceAttorney({ setScheduleOpen }) {
 
   const canPrev = index > 0;
   const canNext = index < cards.length - visibleCount;
+
   return (
     <div className="">
       <Hero
@@ -330,13 +335,10 @@ function DivorceAttorney({ setScheduleOpen }) {
       </section>
 
       {/* Loan Programs slider */}
-      <div className="w-full bg-[#F5F5F5] p-12  rounded-2xl mt-3 mb-3">
-        <div
-          className="flex md:flex-row flex-col
-             justify-between gap-10"
-        >
-          <div className=" pl-8">
-            <p className="text-[#006B2F] uppercase text-center  md:text-start tracking-[3px] sm:tracking-[6px] font-extrabold text-md sm:text-lg mb-6 sm:mb-8">
+      <div className="w-full bg-[#F5F5F5] p-12 rounded-2xl mt-3 mb-3">
+        <div className="flex md:flex-row flex-col justify-between gap-10">
+          <div className="pl-8">
+            <p className="text-[#006B2F] uppercase text-center md:text-start tracking-[3px] sm:tracking-[6px] font-extrabold text-md sm:text-lg mb-6 sm:mb-8">
               LOAN PROGRAMS
             </p>
 
@@ -346,15 +348,15 @@ function DivorceAttorney({ setScheduleOpen }) {
             <div className="w-full lg:w-[650px] pl-10 md:pl-0 flex flex-col justify-center py-0 md:py-16">
               <div className="overflow-hidden">
                 <div
-                  className="flex  gap-6 transition-transform duration-500"
+                  className="flex gap-6 transition-transform duration-500"
                   style={{ transform: `translateX(-${index * step}px)` }}
                 >
                   {cards.map((item, i) => (
                     <div
                       key={i}
-                      className="min-w-[200px] h-[260px] md:min-w-[270px] md:h-[300px]  border-t-10 border-black bg-[#006132] text-white rounded-b-3xl p-6 flex flex-col justify-between flex-shrink-0"
+                      className="min-w-[200px] h-[260px] md:min-w-[270px] md:h-[300px] border-t-10 border-black bg-[#006132] text-white rounded-b-3xl p-6 flex flex-col justify-between flex-shrink-0"
                     >
-                      <div className="flex items-center  ">
+                      <div className="flex items-center">
                         <img
                           className="w-5 h-5 object-contain"
                           src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d6f053f3aaee0cbfc8fac7_new-logo.png"
@@ -365,7 +367,7 @@ function DivorceAttorney({ setScheduleOpen }) {
                         </span>
                       </div>
 
-                      <h2 className="text-3xl font-bold max-w-[200px] ">
+                      <h2 className="text-3xl font-bold max-w-[200px]">
                         {item.Name}
                       </h2>
 
@@ -412,7 +414,7 @@ function DivorceAttorney({ setScheduleOpen }) {
             <div className="w-full flex justify-center items-center gap-3 mt-8">
               <button
                 onClick={() => setScheduleOpen(true)}
-                className="bg-[#006132] text-[16px] gap-2  text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center "
+                className="bg-[#006132] text-[13px] gap-2 w-54 text-white px-6 py-3 rounded-xl font-bold flex flex-row items-center justify-center"
               >
                 <Calendar className="w-4 h-4" /> Schedule Intro Call{" "}
                 <ArrowRight size={18} />
@@ -435,8 +437,8 @@ function DivorceAttorney({ setScheduleOpen }) {
             </h2>
             <p className="text-gray-500 mt-4 max-w-lg mx-auto text-sm sm:text-base">
               Enhance your legal strategies with expert mortgage advice,
-              protecting your clients' real estate interests through and
-              beyond the divorce.
+              protecting your clients' real estate interests through and beyond
+              the divorce.
             </p>
           </FadeIn>
 
@@ -899,6 +901,15 @@ function DivorceAttorney({ setScheduleOpen }) {
       </section>
 
       <Loan />
+
+      {/* ScheduleCallModal */}
+      <ScheduleCallModal
+        isOpen={scheduleOpen}
+        onClose={() => setScheduleOpen(false)}
+        onConfirm={(appointmentDetails) => {
+          console.log("Appointment confirmed:", appointmentDetails);
+        }}
+      />
     </div>
   );
 }

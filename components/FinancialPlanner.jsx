@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Loan from "./applyLoan";
 import { Link } from "react-router-dom";
+import ScheduleCallModal from "./scheduleCallModal";
 
 const videos = [
   {
@@ -182,7 +183,8 @@ const AnimatedText = ({ text, delay = 0, className = "" }) => {
   );
 };
 
-function FinancialPlanner({ setScheduleOpen }) {
+function FinancialPlanner() {
+  const [scheduleOpen, setScheduleOpen] = useState(false);
   const [activeId, setActiveId] = useState(3);
   const [playing, setPlaying] = useState(false);
 
@@ -237,6 +239,7 @@ function FinancialPlanner({ setScheduleOpen }) {
         eyebrow="HI, I'M Adrian Webb"
         title="Empower Your Financial Planning With Trusted Mortgage Advice"
         description="Enhance your clients' financial journey with strategic mortgage solutions that align with your advisory goals. Let's build wealth together!"
+        setScheduleOpen={setScheduleOpen}
       />
 
       {/* Section 1 - Our Community */}
@@ -404,7 +407,7 @@ function FinancialPlanner({ setScheduleOpen }) {
             <div className="w-full flex justify-center items-center gap-3 mt-8">
               <button
                 onClick={() => setScheduleOpen(true)}
-                className="bg-[#006132] text-[16px] gap-2  text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center "
+                className="bg-[#006132] text-[14px] gap-2 w-56 text-white px-6 py-3 rounded-xl font-bold flex items-center justify-center "
               >
                 <Calendar className="w-4 h-4" /> Schedule Intro Call{" "}
                 <ArrowRight size={18} />
@@ -891,6 +894,14 @@ function FinancialPlanner({ setScheduleOpen }) {
       </section>
 
       <Loan />
+      <ScheduleCallModal
+      
+        isOpen={scheduleOpen}
+        onClose={() => setScheduleOpen(false)}
+        onConfirm={(appointmentDetails) => {
+          console.log("Appointment confirmed:", appointmentDetails);
+        }}
+      />
     </div>
   );
 }
