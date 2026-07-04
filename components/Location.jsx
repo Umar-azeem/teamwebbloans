@@ -1,307 +1,48 @@
 // LocationFinder.jsx
-import React, { useState, useCallback, useRef, useMemo } from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow, Autocomplete } from '@react-google-maps/api';
+import  { useState } from 'react';
+import { MapPin, ExternalLink, Calendar, Phone, Mail } from 'lucide-react';
 import '../src/LocationFinder.css';
 import ScheduleCallModal from './scheduleCallModal';
 
-// Google Maps API Key - Replace with your own
-const GOOGLE_MAPS_API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY';
+// Office Address
+const OFFICE_ADDRESS = "28 Union Street, Suite 101, New Bedford, MA 02740";
+const MAPS_DIRECTIONS_URL =
+  "https://www.google.com/maps/search/?api=1&query=" +
+  encodeURIComponent(OFFICE_ADDRESS);
+const MAPS_EMBED_URL =
+  "https://www.google.com/maps?q=" +
+  encodeURIComponent(OFFICE_ADDRESS) +
+  "&output=embed";
 
-// Sample location data - Replace with your actual data from backend
-const LOCATIONS_DATA = [
-  {
-    id: 1,
-    name: 'Uptown Charlotte Financial Center',
-    address: '101 S Tryon St, Charlotte, NC 28280',
-    lat: 35.2271,
-    lng: -80.8431,
-    phone: '(704) 555-0100',
-    hours: 'Mon-Fri: 9AM - 6PM',
-    type: 'branch',
-    services: ['Mortgage Consultation', 'Refinancing', 'Home Equity']
-  },
-  {
-    id: 2,
-    name: 'SouthPark Mortgage Office',
-    address: '4321 Park Rd, Suite 200, Charlotte, NC 28210',
-    lat: 35.1395,
-    lng: -80.8531,
-    phone: '(704) 555-0200',
-    hours: 'Mon-Fri: 9AM - 5PM',
-    type: 'branch',
-    services: ['Mortgage Consultation', 'Pre-Approval', 'Loan Processing']
-  },
-  {
-    id: 3,
-    name: 'Ballantyne Financial Center',
-    address: '14825 Ballantyne Village Way, Charlotte, NC 28277',
-    lat: 35.0586,
-    lng: -80.8583,
-    phone: '(704) 555-0300',
-    hours: 'Mon-Fri: 9AM - 5PM',
-    type: 'branch',
-    services: ['Mortgage Consultation', 'Refinancing']
-  },
-  {
-    id: 4,
-    name: 'ATM - Uptown Charlotte',
-    address: '101 S Tryon St (Lobby), Charlotte, NC 28280',
-    lat: 35.2274,
-    lng: -80.8428,
-    phone: 'N/A',
-    hours: '24/7 Access',
-    type: 'atm',
-    services: ['Cash Withdrawals', 'Deposits']
-  },
-  {
-    id: 5,
-    name: 'ATM - South End',
-    address: '1520 South Blvd, Charlotte, NC 28203',
-    lat: 35.2113,
-    lng: -80.8597,
-    phone: 'N/A',
-    hours: '24/7 Access',
-    type: 'atm',
-    services: ['Cash Withdrawals', 'Deposits']
-  }
-];
+const Icon = ({ src, size = 20, className = "" }) => (
+  <img src={src} width={size} height={size} className={className} alt="" />
+);
 
-const mapContainerStyle = {
-  width: '100%',
-  height: '100%',
-  minHeight: '500px'
+const icons = {
+  phone: "https://img.icons8.com/ios/50/ffffff/phone.png",
+  calendar: "https://img.icons8.com/ios/50/0a5c3a/calendar.png",
+  arrowRight: "https://img.icons8.com/ios/50/ffffff/forward--v1.png",
+  facebook: "https://img.icons8.com/ios-filled/50/374151/facebook-new.png",
+  instagram: "https://img.icons8.com/ios/50/374151/instagram-new.png",
+  linkedin: "https://img.icons8.com/ios-filled/50/374151/linkedin.png",
+  youtube: "https://img.icons8.com/ios-filled/50/374151/youtube-play.png",
 };
 
-const defaultCenter = {
-  lat: 35.2271,
-  lng: -80.8431
-};
-
-const options = {
-  disableDefaultUI: false,
-  zoomControl: true,
-  streetViewControl: true,
-  mapTypeControl: true,
-  fullscreenControl: true,
-  styles: [
-    {
-      featureType: 'poi',
-      elementType: 'labels',
-      stylers: [{ visibility: 'off' }]
-    }
-  ]
-};
- const Icon = ({ src, size = 20, className = "" }) => (
-    <img src={src} width={size} height={size} className={className} alt="" />
-  );
-  const icons = {
-    phone: "https://img.icons8.com/ios/50/ffffff/phone.png",
-    chevronDown: "https://img.icons8.com/ios/50/ffffff/expand-arrow.png",
-    calendar: "https://img.icons8.com/ios/50/0a5c3a/calendar.png",
-    arrowRight: "https://img.icons8.com/ios/50/ffffff/forward--v1.png",
-    facebook: "https://img.icons8.com/ios-filled/50/374151/facebook-new.png",
-    instagram: "https://img.icons8.com/ios/50/374151/instagram-new.png",
-    linkedin: "https://img.icons8.com/ios-filled/50/374151/linkedin.png",
-    youtube: "https://img.icons8.com/ios-filled/50/374151/youtube-play.png",
-  };
- const LocationFinder = () => {
+const LocationFinder = () => {
   const [scheduleOpen, setScheduleOpen] = useState(false);
-  const [locations] = useState(LOCATIONS_DATA);
-  const [selectedLocation, setSelectedLocation] = useState(null);
-  const [searchRadius, setSearchRadius] = useState(25);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeTab, setActiveTab] = useState('branch');
-  const [mapCenter, setMapCenter] = useState(defaultCenter);
-  const [userLocation, setUserLocation] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [scriptLoaded, setScriptLoaded] = useState(false);
-  const autocompleteRef = useRef(null);
-
-  // Calculate distance between two coordinates
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 3959; // Miles
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c;
-  };
-
-  // Use useMemo to compute filtered locations - no setState in effect!
-  const filteredLocations = useMemo(() => {
-    let filtered = [...locations];
-
-    // Filter by tab (branch/atm)
-    if (activeTab === 'branch') {
-      filtered = filtered.filter(loc => loc.type === 'branch');
-    } else if (activeTab === 'atm') {
-      filtered = filtered.filter(loc => loc.type === 'atm');
-    }
-
-    // Filter by search query
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
-      filtered = filtered.filter(loc => 
-        loc.name.toLowerCase().includes(query) ||
-        loc.address.toLowerCase().includes(query) ||
-        loc.services.some(service => service.toLowerCase().includes(query))
-      );
-    }
-
-    // If user location is set, calculate distances and sort
-    if (userLocation) {
-      filtered = filtered.map(loc => ({
-        ...loc,
-        distance: calculateDistance(userLocation.lat, userLocation.lng, loc.lat, loc.lng)
-      }));
-      
-      filtered = filtered
-        .filter(loc => loc.distance <= searchRadius)
-        .sort((a, b) => a.distance - b.distance);
-    }
-
-    return filtered;
-  }, [locations, activeTab, searchQuery, userLocation, searchRadius]);
-
-  // Get user's current location
-  const getUserLocation = () => {
-    setIsLoading(true);
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-          setUserLocation(pos);
-          setMapCenter(pos);
-          setIsLoading(false);
-        },
-        () => {
-          alert('Unable to retrieve your location. Please enter a location manually.');
-          setIsLoading(false);
-        }
-      );
-    } else {
-      alert('Geolocation is not supported by your browser.');
-      setIsLoading(false);
-    }
-  };
-
-  // Handle search by address
-  const handlePlaceSelect = () => {
-    if (autocompleteRef.current) {
-      const place = autocompleteRef.current.getPlace();
-      if (place.geometry) {
-        const location = {
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng()
-        };
-        setMapCenter(location);
-        setUserLocation(location);
-        setSearchQuery(place.formatted_address || place.name);
-      }
-    }
-  };
-
-  // Handle location click on map
-  const handleMarkerClick = (location) => {
-    setSelectedLocation(location);
-    setMapCenter({ lat: location.lat, lng: location.lng });
-  };
-
-  // Handle info window close
-  const handleInfoClose = () => {
-    setSelectedLocation(null);
-  };
-
-  // Schedule appointment
-  const scheduleAppointment = (locationName) => {
-    setScheduleOpen(true);
-  };
-
-  // Handle map load
-  const handleMapLoad = (map) => {
-    setMapLoaded(true);
-    console.log('Map loaded successfully');
-  };
-
-  // Handle script load
-  const handleScriptLoad = () => {
-    setScriptLoaded(true);
-    console.log('Google Maps script loaded');
-  };
-
-  // Handle script error
-  const handleScriptError = (error) => {
-    console.error('Google Maps script failed to load:', error);
-    setScriptLoaded(false);
-  };
-
-  // Render location list items
-  const renderLocationItem = (location) => {
-    const isActive = selectedLocation?.id === location.id;
-    return (
-      <div 
-        key={location.id} 
-        className={`location-item ${isActive ? 'active' : ''}`}
-        onClick={() => handleMarkerClick(location)}
-      >
-        <h4>{location.name}</h4>
-        <div className="address">{location.address}</div>
-        {location.distance && (
-          <div className="distance">
-            <i className="fas fa-route"></i> {location.distance.toFixed(1)} mi away
-          </div>
-        )}
-        <div className="location-meta">
-          <span className="tag">
-            <i className="far fa-clock"></i> {location.hours}
-          </span>
-          {location.type === 'branch' && (
-            <span className="tag branch-tag">
-              <i className="fas fa-store"></i> Branch
-            </span>
-          )}
-          {location.type === 'atm' && (
-            <span className="tag atm-tag">
-              <i className="fas fa-atm"></i> ATM
-            </span>
-          )}
-        </div>
-        <button 
-          className="schedule-btn"
-          onClick={(e) => {
-            e.stopPropagation();
-            scheduleAppointment(location.name);
-          }}
-        >
-          <i className="fas fa-calendar-check"></i> Schedule appointment
-        </button>
-      </div>
-    );
-  };
+  const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <LoadScript 
-      googleMapsApiKey={GOOGLE_MAPS_API_KEY}
-      libraries={['places']}
-      onLoad={handleScriptLoad}
-      onError={handleScriptError}
-      loadingElement={<div className="map-loading"><i className="fas fa-spinner fa-spin"></i><p>Loading Google Maps...</p></div>}
-    >
-    <main className="relative z-10 bg-[#006132] rounded-2xl w-full mx-auto flex flex-col-reverse lg:flex-row items-center px-0 sm:px-6 lg:px-8 pt-18 pb-20 gap-10">
+    <>
+      {/* Hero Section */}
+      <main className="relative z-10 bg-[#006132] rounded-2xl w-full mx-auto flex flex-col-reverse lg:flex-row items-center px-0 sm:px-6 lg:px-8 pt-18 pb-20 gap-10">
         <div className="flex-1 max-w-2xl w-full text-center px-4 lg:text-left">
           <div className="hidden md:flex flex-col">
-            <p className="text-md font-bold tracking-[0.2em] mb-6 uppercase">
+            <p className="text-md font-bold tracking-[0.2em] mb-6 uppercase text-white/80">
               Hi, I'm Adrian Webb
             </p>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6 text-white">
               Your Local
               <br />
               Mortgage Expert
@@ -327,7 +68,7 @@ const options = {
 
             <button
               onClick={() => setContactOpen(true)}
-              className="w-full sm:w-auto flex items-center justify-center gap-3 border-2 border-white/30 px-6 py-4 rounded-xl font-semibold transition transform duration-300 hover:-translate-y-1"
+              className="w-full sm:w-auto flex items-center justify-center gap-3 border-2 border-white/30 px-6 py-4 rounded-xl font-semibold text-white transition transform duration-300 hover:-translate-y-1"
             >
               Quick Contact
               <img
@@ -350,15 +91,15 @@ const options = {
                 Satisfied Customers
               </p>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-bold">100K+</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-white">100K+</h2>
           </div>
 
-          <div className="relative w-full max-w-[450px] ">
+          <div className="relative w-full max-w-[450px]">
             <div className="flex flex-col text-center p-6 md:hidden">
-              <p className="text-md font-bold tracking-[0.2em] mb-6 uppercase">
+              <p className="text-md font-bold tracking-[0.2em] mb-6 uppercase text-white/80">
                 Hi, I'm Adrian Webb
               </p>
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6">
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-6 text-white">
                 Your Local
                 <br />
                 Mortgage Expert
@@ -370,14 +111,12 @@ const options = {
               alt="Adrian Webb"
               className="min-w-full h-[500px] sm:h-[480px] lg:h-[550px] object-cover object-top rounded-2xl"
               style={{
-                maskImage:
-                  "linear-gradient(to bottom, black 80%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(to bottom, black 80%, transparent 100%)",
+                maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
               }}
             />
 
-            <div className="absolute bottom-4 flex flex-col justify-center sm:bottom-8 right-0 left-0 sm:left-auto mx-auto sm:mx-0 bg-white text-gray-900 p-5  sm:p-2 rounded-2xl shadow-2xl w-[70%] sm:w-64">
+            <div className="absolute bottom-4 flex flex-col justify-center sm:bottom-8 right-0 left-0 sm:left-auto mx-auto sm:mx-0 bg-white text-gray-900 p-5 sm:p-2 rounded-2xl shadow-2xl w-[70%] sm:w-64">
               <h3 className="text-lg font-bold mb-2">Adrian Webb</h3>
               <p className="text-gray-600 text-sm mb-1">
                 Senior Mortgage Advisor
@@ -388,24 +127,32 @@ const options = {
               <div className="flex items-center gap-2">
                 <a
                   href="https://www.facebook.com/adrian.webb.127"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
                 >
                   <Icon src={icons.facebook} size={18} />
                 </a>
                 <a
                   href="https://www.instagram.com/adrian.webb.127/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
                 >
                   <Icon src={icons.instagram} size={18} />
                 </a>
                 <a
                   href="https://www.linkedin.com/in/adrian-webb-492b2910/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
                 >
                   <Icon src={icons.linkedin} size={18} />
                 </a>
                 <a
                   href="https://www.youtube.com/channel/UCPdDvkQzRXzOt16uQ6J3sEA"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
                 >
                   <Icon src={icons.youtube} size={18} />
@@ -415,223 +162,108 @@ const options = {
           </div>
         </div>
       </main>
+
+      {/* Location Section */}
       <div className="locator-container">
-         
         <div className="page-header">
-          <h1><i className="fas fa-map-pin"></i> Find a Location</h1>
-          <p>Connect with Adrian Webb and the Team Webb Loans team at a financial center near you.</p>
+          <h1>
+            <MapPin className="inline-block w-8 h-8 text-[#006132] mr-3" />
+            Find Our Location
+          </h1>
+          <p>Visit us at our office in New Bedford, MA. We're here to help you with all your mortgage needs.</p>
         </div>
 
-        {/* Search Card */}
-        <div className="search-card">
-          <div className="search-tabs">
-            <button 
-              className={`search-tab ${activeTab === 'branch' ? 'active' : ''}`}
-              onClick={() => setActiveTab('branch')}
-            >
-              <i className="fas fa-store"></i> Branches
-            </button>
-            <button 
-              className={`search-tab ${activeTab === 'atm' ? 'active' : ''}`}
-              onClick={() => setActiveTab('atm')}
-            >
-              <i className="fas fa-atm"></i> ATMs
-            </button>
-          </div>
+        {/* Location Card */}
+        <section className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2">
+            {/* Address / info panel */}
+            <div className="p-6 sm:p-8 flex flex-col justify-center">
+              <div className="w-12 h-12 bg-[#006132]/10 rounded-full flex items-center justify-center mb-4">
+                <MapPin className="w-6 h-6 text-[#006132]" />
+              </div>
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                Our Office
+              </h3>
+              <p className="text-gray-700 mb-2 text-lg">{OFFICE_ADDRESS}</p>
+              
+              <div className="flex flex-col gap-2 mt-4">
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Phone className="w-4 h-4 text-[#006132]" />
+                  <span>(508) 555-0123</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Mail className="w-4 h-4 text-[#006132]" />
+                  <span>info@teamwebbloans.com</span>
+                </div>
+                <div className="flex items-center gap-3 text-gray-600">
+                  <Calendar className="w-4 h-4 text-[#006132]" />
+                  <span>Mon-Fri: 9AM - 6PM</span>
+                </div>
+              </div>
 
-          <div className="search-grid">
-            <div className="form-group">
-              <label><i className="fas fa-search"></i> City, ZIP, or Address</label>
-              <Autocomplete
-                onLoad={(ref) => { autocompleteRef.current = ref; }}
-                onPlaceChanged={handlePlaceSelect}
-                options={{
-                  types: ['geocode', 'establishment'],
-                  componentRestrictions: { country: 'us' }
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="e.g., Dallas, TX or 75201"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault();
-                    }
-                  }}
-                />
-              </Autocomplete>
+              <div className="flex flex-wrap gap-3 mt-6">
+                <a
+                  href={MAPS_DIRECTIONS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 bg-[#006132] text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#004d26] transition"
+                >
+                  Get Directions
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+                <button
+                  onClick={() => setScheduleOpen(true)}
+                  className="inline-flex items-center gap-2 border-2 border-[#006132] text-[#006132] px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-[#006132] hover:text-white transition"
+                >
+                  <Calendar className="w-4 h-4" />
+                  Schedule Visit
+                </button>
+              </div>
             </div>
-            
-            <div className="form-group">
-              <label><i className="fas fa-arrows-alt-h"></i> Radius</label>
-              <select 
-                value={searchRadius} 
-                onChange={(e) => {
-                  const radius = parseInt(e.target.value);
-                  setSearchRadius(radius);
-                }}
-              >
-                <option value="10">10 miles</option>
-                <option value="25">25 miles</option>
-                <option value="50">50 miles</option>
-                <option value="100">100 miles</option>
-              </select>
-            </div>
-            
-            <div className="search-actions">
-              <button 
-                className="btn-primary"
-                onClick={() => {
-                  if (userLocation) {
-                    // Trigger re-filter by updating a state that useMemo depends on
-                    setSearchRadius(searchRadius);
-                  } else {
-                    getUserLocation();
-                  }
-                }}
-              >
-                <i className="fas fa-search"></i> Search
-              </button>
-              <button 
-                className="btn-outline"
-                onClick={getUserLocation}
-              >
-                <i className="fas fa-location-dot"></i> Use my location
-              </button>
+
+            {/* Embedded map */}
+            <div className="h-64 md:h-full min-h-[280px]">
+              <iframe
+                title="Office location map"
+                src={MAPS_EMBED_URL}
+                className="w-full h-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                allowFullScreen
+              />
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Results: List + Map */}
-        <div className="results-wrapper">
-          {/* Left List */}
-          <div className="locations-list" id="locationList">
-            <h3>
-              <i className="fas fa-store-alt"></i> 
-              {filteredLocations.length} {filteredLocations.length === 1 ? 'location' : 'locations'} found
-            </h3>
-
-            {isLoading ? (
-              <div className="loading-spinner">
-                <i className="fas fa-spinner fa-spin"></i> Finding your location...
-              </div>
-            ) : filteredLocations.length === 0 ? (
-              <div className="no-results">
-                <i className="fas fa-map-pin"></i>
-                <h4>No locations found</h4>
-                <p>Please try a different search area or adjust the radius.</p>
-              </div>
-            ) : (
-              filteredLocations.map(renderLocationItem)
-            )}
-          </div>
-
-          {/* Right Map */}
-          <div className="map-container">
-            {!scriptLoaded ? (
-              <div className="map-loading">
-                <i className="fas fa-spinner fa-spin"></i>
-                <p>Loading Google Maps...</p>
-              </div>
-            ) : !mapLoaded ? (
-              <div className="map-loading">
-                <i className="fas fa-spinner fa-spin"></i>
-                <p>Loading map...</p>
-              </div>
-            ) : (
-              <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                center={mapCenter}
-                zoom={13}
-                options={options}
-                onLoad={handleMapLoad}
-              >
-                {filteredLocations.map((location) => (
-                  <Marker
-                    key={location.id}
-                    position={{ lat: location.lat, lng: location.lng }}
-                    onClick={() => handleMarkerClick(location)}
-                    icon={{
-                      url: location.type === 'atm' 
-                        ? 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png'
-                        : 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
-                      scaledSize: window.google && new window.google.maps.Size(32, 32)
-                    }}
-                  />
-                ))}
-
-                {userLocation && window.google && (
-                  <Marker
-                    position={userLocation}
-                    icon={{
-                      url: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
-                      scaledSize: new window.google.maps.Size(32, 32)
-                    }}
-                    label={{
-                      text: 'You',
-                      color: 'white',
-                      fontWeight: 'bold',
-                      fontSize: '10px'
-                    }}
-                  />
-                )}
-
-                {selectedLocation && window.google && (
-                  <InfoWindow
-                    position={{ lat: selectedLocation.lat, lng: selectedLocation.lng }}
-                    onCloseClick={handleInfoClose}
-                  >
-                    <div className="info-window">
-                      <h4>{selectedLocation.name}</h4>
-                      <p><i className="fas fa-map-pin"></i> {selectedLocation.address}</p>
-                      {selectedLocation.phone !== 'N/A' && (
-                        <p><i className="fas fa-phone"></i> {selectedLocation.phone}</p>
-                      )}
-                      <p><i className="far fa-clock"></i> {selectedLocation.hours}</p>
-                      <div className="services">
-                        <strong>Services:</strong>
-                        <ul>
-                          {selectedLocation.services.map((service, index) => (
-                            <li key={index}>{service}</li>
-                          ))}
-                        </ul>
-                      </div>
-                      <button 
-                        className="schedule-btn"
-                        onClick={() => scheduleAppointment(selectedLocation.name)}
-                      >
-                        <i className="fas fa-calendar-check"></i> Schedule Appointment
-                      </button>
-                    </div>
-                  </InfoWindow>
-                )}
-              </GoogleMap>
-            )}
-
-            <div className="map-overlay-info">
-              <i className="fas fa-circle" style={{ color: '#006132', fontSize: '0.6rem' }}></i> 
-              {filteredLocations.length} {filteredLocations.length === 1 ? 'location' : 'locations'} in area
+        {/* Additional Info */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+            <div className="w-12 h-12 bg-[#006132]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MapPin className="w-6 h-6 text-[#006132]" />
             </div>
+            <h4 className="font-bold text-gray-900 mb-1">Visit Us</h4>
+            <p className="text-sm text-gray-600">Schedule an in-person consultation at our office.</p>
           </div>
-        </div>
-
-        {/* Appointment Banner */}
-        <div className="appointment-banner">
-          <div>
-            <h3><i className="fas fa-handshake"></i> Schedule an appointment</h3>
-            <p>Adrian Webb and our specialists are ready to help at your convenience.</p>
+          
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+            <div className="w-12 h-12 bg-[#006132]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Phone className="w-6 h-6 text-[#006132]" />
+            </div>
+            <h4 className="font-bold text-gray-900 mb-1">Call Us</h4>
+            <p className="text-sm text-gray-600">Speak directly with our team for immediate assistance.</p>
           </div>
-          <button
-            onClick={() => setScheduleOpen(true)}
-            className="btn-light"
-          >
-            <i className="fas fa-calendar-plus"></i> Schedule Intro Call
-          </button>
+          
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 text-center">
+            <div className="w-12 h-12 bg-[#006132]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Calendar className="w-6 h-6 text-[#006132]" />
+            </div>
+            <h4 className="font-bold text-gray-900 mb-1">Online Scheduling</h4>
+            <p className="text-sm text-gray-600">Book a virtual or in-person appointment online.</p>
+          </div>
         </div>
       </div>
 
+      {/* Schedule Call Modal */}
       <ScheduleCallModal
         isOpen={scheduleOpen}
         onClose={() => setScheduleOpen(false)}
@@ -639,7 +271,7 @@ const options = {
           console.log("Appointment confirmed:", appointmentDetails);
         }}
       />
-    </LoadScript>
+    </>
   );
 };
 

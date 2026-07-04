@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,12 +10,25 @@ import {
   Tooltip,
   Legend,
   ArcElement,
-  Filler
-} from 'chart.js';
-import { Line, Bar, Doughnut, Pie } from 'react-chartjs-2';
-import { Calculator, Home, TrendingUp, DollarSign, PieChart, BarChart3, Activity, Clock, Users, FileText, MapPin, Search } from 'lucide-react';
-import ScheduleCallModal from './scheduleCallModal';
-import QuickContactModal from './quickClick';
+  Filler,
+} from "chart.js";
+import { Line, Bar, Doughnut, Pie } from "react-chartjs-2";
+import {
+  Calculator,
+  Home,
+  TrendingUp,
+  DollarSign,
+  PieChart,
+  BarChart3,
+  Activity,
+  Clock,
+  Users,
+  FileText,
+  MapPin,
+  Search,
+} from "lucide-react";
+import ScheduleCallModal from "./scheduleCallModal";
+import QuickContactModal from "./quickClick";
 
 // Register ChartJS components
 ChartJS.register(
@@ -28,7 +41,7 @@ ChartJS.register(
   Tooltip,
   Legend,
   ArcElement,
-  Filler
+  Filler,
 );
 
 // Move Icon component outside of the main component
@@ -49,40 +62,63 @@ const icons = {
 
 // Sample property data for different cities
 const propertyData = {
-  'New York': { baseValue: 650000, growth: 0.08 },
-  'Los Angeles': { baseValue: 580000, growth: 0.07 },
-  'Chicago': { baseValue: 320000, growth: 0.05 },
-  'Houston': { baseValue: 280000, growth: 0.06 },
-  'Phoenix': { baseValue: 350000, growth: 0.09 },
-  'Philadelphia': { baseValue: 270000, growth: 0.04 },
-  'San Antonio': { baseValue: 250000, growth: 0.07 },
-  'San Diego': { baseValue: 620000, growth: 0.08 },
-  'Dallas': { baseValue: 310000, growth: 0.07 },
-  'San Jose': { baseValue: 750000, growth: 0.06 },
+  "New York": { baseValue: 650000, growth: 0.08 },
+  "Los Angeles": { baseValue: 580000, growth: 0.07 },
+  Chicago: { baseValue: 320000, growth: 0.05 },
+  Houston: { baseValue: 280000, growth: 0.06 },
+  Phoenix: { baseValue: 350000, growth: 0.09 },
+  Philadelphia: { baseValue: 270000, growth: 0.04 },
+  "San Antonio": { baseValue: 250000, growth: 0.07 },
+  "San Diego": { baseValue: 620000, growth: 0.08 },
+  Dallas: { baseValue: 310000, growth: 0.07 },
+  "San Jose": { baseValue: 750000, growth: 0.06 },
 };
 
 // Generate stable market data (not random)
 const generateStableMarketData = () => {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   const currentYear = new Date().getFullYear();
   const baseValue = 350000;
   const monthlyGrowth = 0.003; // 0.3% monthly growth
-  
+
   return months.map((month, index) => ({
     month: `${month} ${currentYear}`,
-    value: Math.round(baseValue * Math.pow(1 + monthlyGrowth, index))
+    value: Math.round(baseValue * Math.pow(1 + monthlyGrowth, index)),
   }));
 };
 
 // Generate stable value history
 const generateStableValueHistory = () => {
-  const years = ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
+  const years = [
+    "2016",
+    "2017",
+    "2018",
+    "2019",
+    "2020",
+    "2021",
+    "2022",
+    "2023",
+    "2024",
+  ];
   const baseValue = 250000;
   const annualGrowth = 0.05;
-  
+
   return years.map((year, index) => ({
     year,
-    value: Math.round(baseValue * Math.pow(1 + annualGrowth, index))
+    value: Math.round(baseValue * Math.pow(1 + annualGrowth, index)),
   }));
 };
 
@@ -99,14 +135,14 @@ const Tools = () => {
   const [monthlyPayment, setMonthlyPayment] = useState(0);
 
   // State for Home Value Estimator
-  const [homeAddress, setHomeAddress] = useState('');
+  const [homeAddress, setHomeAddress] = useState("");
   const [estimatedValue, setEstimatedValue] = useState(null);
   const [valueHistory, setValueHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [locationError, setLocationError] = useState('');
+  const [locationError, setLocationError] = useState("");
 
   // State for Market Trends
-  const [selectedTimeframe, setSelectedTimeframe] = useState('1Y');
+  const [selectedTimeframe, setSelectedTimeframe] = useState("1Y");
 
   // Calculate Mortgage Payment using useMemo to avoid unnecessary re-renders
   const calculatedPayment = useMemo(() => {
@@ -115,7 +151,10 @@ const Tools = () => {
     const numberOfPayments = loanTerm * 12;
 
     if (principal > 0 && monthlyRate > 0) {
-      const payment = principal * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+      const payment =
+        (principal *
+          (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments))) /
+        (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
       return payment + propertyTax + insurance;
     }
     return 0;
@@ -130,53 +169,77 @@ const Tools = () => {
   const marketData = useMemo(() => generateStableMarketData(), []);
 
   // Chart Data Configurations
-  const monthlyPaymentData = useMemo(() => ({
-    labels: ['Principal & Interest', 'Property Taxes', 'Insurance', 'PMI', 'HOA Fees'],
-    datasets: [
-      {
-        label: 'Monthly Payment Breakdown',
-        data: [
-          Math.max(0, monthlyPayment - propertyTax - insurance),
-          propertyTax,
-          insurance,
-          0,
-          0
-        ],
-        backgroundColor: ['#006132', '#008f45', '#00b85a', '#ffd700', '#ff6b6b'],
-        borderWidth: 1,
-      },
-    ],
-  }), [monthlyPayment, propertyTax, insurance]);
+  const monthlyPaymentData = useMemo(
+    () => ({
+      labels: [
+        "Principal & Interest",
+        "Property Taxes",
+        "Insurance",
+        "PMI",
+        "HOA Fees",
+      ],
+      datasets: [
+        {
+          label: "Monthly Payment Breakdown",
+          data: [
+            Math.max(0, monthlyPayment - propertyTax - insurance),
+            propertyTax,
+            insurance,
+            0,
+            0,
+          ],
+          backgroundColor: [
+            "#006132",
+            "#008f45",
+            "#00b85a",
+            "#ffd700",
+            "#ff6b6b",
+          ],
+          borderWidth: 1,
+        },
+      ],
+    }),
+    [monthlyPayment, propertyTax, insurance],
+  );
 
-  const marketTrendData = useMemo(() => ({
-    labels: marketData.map(d => d.month),
-    datasets: [
-      {
-        label: 'Average Home Price',
-        data: marketData.map(d => d.value),
-        borderColor: '#006132',
-        backgroundColor: 'rgba(0, 97, 50, 0.1)',
-        fill: true,
-        tension: 0.4,
-      },
-      {
-        label: 'Market Trend',
-        data: marketData.map(d => d.value * 1.05),
-        borderColor: '#ffd700',
-        backgroundColor: 'rgba(255, 215, 0, 0.05)',
-        fill: false,
-        tension: 0.4,
-        borderDash: [5, 5],
-      },
-    ],
-  }), [marketData]);
+  const marketTrendData = useMemo(
+    () => ({
+      labels: marketData.map((d) => d.month),
+      datasets: [
+        {
+          label: "Average Home Price",
+          data: marketData.map((d) => d.value),
+          borderColor: "#006132",
+          backgroundColor: "rgba(0, 97, 50, 0.1)",
+          fill: true,
+          tension: 0.4,
+        },
+        {
+          label: "Market Trend",
+          data: marketData.map((d) => d.value * 1.05),
+          borderColor: "#ffd700",
+          backgroundColor: "rgba(255, 215, 0, 0.05)",
+          fill: false,
+          tension: 0.4,
+          borderDash: [5, 5],
+        },
+      ],
+    }),
+    [marketData],
+  );
 
   const loanTypeDistribution = {
-    labels: ['Fixed Rate', 'Adjustable Rate', 'FHA', 'VA', 'Jumbo'],
+    labels: ["Fixed Rate", "Adjustable Rate", "FHA", "VA", "Jumbo"],
     datasets: [
       {
         data: [45, 15, 20, 12, 8],
-        backgroundColor: ['#006132', '#008f45', '#00b85a', '#ffd700', '#ff6b6b'],
+        backgroundColor: [
+          "#006132",
+          "#008f45",
+          "#00b85a",
+          "#ffd700",
+          "#ff6b6b",
+        ],
         borderWidth: 1,
       },
     ],
@@ -185,12 +248,12 @@ const Tools = () => {
   // Real location-based home value estimation
   const handleEstimateValue = useCallback(async () => {
     if (!homeAddress || homeAddress.trim().length < 3) {
-      setLocationError('Please enter a valid address or city name');
+      setLocationError("Please enter a valid address or city name");
       return;
     }
 
     setIsLoading(true);
-    setLocationError('');
+    setLocationError("");
     setEstimatedValue(null);
 
     try {
@@ -198,76 +261,85 @@ const Tools = () => {
       const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(homeAddress)}&format=json&limit=1`;
       const response = await fetch(geocodeUrl, {
         headers: {
-          'User-Agent': 'MortgageTools/1.0'
-        }
+          "User-Agent": "MortgageTools/1.0",
+        },
       });
-      
+
       const data = await response.json();
-      
+
       if (data && data.length > 0) {
         const location = data[0];
-        const city = location.address?.city || location.address?.town || location.address?.village || 'Unknown';
-        
+        const city =
+          location.address?.city ||
+          location.address?.town ||
+          location.address?.village ||
+          "Unknown";
+
         // Find matching city in our property data
         let baseValue = 320000;
         let growth = 0.05;
-        
+
         // Check if city matches any in our database
-        const matchedCity = Object.keys(propertyData).find(key => 
-          city.toLowerCase().includes(key.toLowerCase()) || 
-          key.toLowerCase().includes(city.toLowerCase())
+        const matchedCity = Object.keys(propertyData).find(
+          (key) =>
+            city.toLowerCase().includes(key.toLowerCase()) ||
+            key.toLowerCase().includes(city.toLowerCase()),
         );
-        
+
         if (matchedCity) {
           baseValue = propertyData[matchedCity].baseValue;
           growth = propertyData[matchedCity].growth;
         } else {
           // Use regional average based on state if available
-          const state = location.address?.state || '';
-          if (['CA', 'NY', 'MA', 'WA'].includes(state)) {
+          const state = location.address?.state || "";
+          if (["CA", "NY", "MA", "WA"].includes(state)) {
             baseValue = 500000;
-          } else if (['TX', 'FL', 'AZ', 'NC'].includes(state)) {
+          } else if (["TX", "FL", "AZ", "NC"].includes(state)) {
             baseValue = 350000;
-          } else if (['OH', 'PA', 'MI', 'IN'].includes(state)) {
+          } else if (["OH", "PA", "MI", "IN"].includes(state)) {
             baseValue = 250000;
           }
         }
 
         // Add some variation based on location accuracy
-        const randomFactor = 0.9 + (Math.random() * 0.2);
+        const randomFactor = 0.9 + Math.random() * 0.2;
         const estimatedPrice = Math.round(baseValue * randomFactor);
-        
+
         setEstimatedValue(estimatedPrice);
-        
+
         // Generate value history based on estimated price
         const history = [];
         let val = estimatedPrice * 0.7;
         for (let i = 0; i < 8; i++) {
-          const growthRate = 1 + (growth * (0.5 + Math.random() * 0.5));
+          const growthRate = 1 + growth * (0.5 + Math.random() * 0.5);
           val = Math.round(val * growthRate);
           history.push(val);
         }
         setValueHistory(history);
-        
-        setLocationError(`Location found: ${city}, ${location.address?.state || ''}`);
+
+        setLocationError(
+          `Location found: ${city}, ${location.address?.state || ""}`,
+        );
       } else {
         // Fallback: Use zip code or city name to estimate
-        const cityMatch = Object.keys(propertyData).find(key => 
-          homeAddress.toLowerCase().includes(key.toLowerCase())
+        const cityMatch = Object.keys(propertyData).find((key) =>
+          homeAddress.toLowerCase().includes(key.toLowerCase()),
         );
-        
+
         if (cityMatch) {
           const baseValue = propertyData[cityMatch].baseValue;
-          const estimatedPrice = Math.round(baseValue * (0.9 + Math.random() * 0.2));
+          const estimatedPrice = Math.round(
+            baseValue * (0.9 + Math.random() * 0.2),
+          );
           setEstimatedValue(estimatedPrice);
-          setLocationError('Location estimated based on city data');
+          setLocationError("Location estimated based on city data");
         } else {
           // Default estimation
           const estimatedPrice = Math.round(300000 + Math.random() * 100000);
           setEstimatedValue(estimatedPrice);
-          setLocationError('Location not found. Using regional average.');
+          setLocationError("Location not found. Using regional average.");
         }
-        
+
         // Generate value history
         const history = [];
         let val = estimatedValue || 300000;
@@ -278,8 +350,8 @@ const Tools = () => {
         setValueHistory(history);
       }
     } catch (error) {
-      console.error('Error estimating value:', error);
-      setLocationError('Error fetching location data. Please try again.');
+      console.error("Error estimating value:", error);
+      setLocationError("Error fetching location data. Please try again.");
       // Fallback estimation
       const estimatedPrice = Math.round(300000 + Math.random() * 100000);
       setEstimatedValue(estimatedPrice);
@@ -298,26 +370,32 @@ const Tools = () => {
             const reverseGeocodeUrl = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
             const response = await fetch(reverseGeocodeUrl, {
               headers: {
-                'User-Agent': 'MortgageTools/1.0'
-              }
+                "User-Agent": "MortgageTools/1.0",
+              },
             });
             const data = await response.json();
             if (data && data.address) {
-              const city = data.address.city || data.address.town || data.address.village || '';
-              const state = data.address.state || '';
+              const city =
+                data.address.city ||
+                data.address.town ||
+                data.address.village ||
+                "";
+              const state = data.address.state || "";
               setHomeAddress(`${city}, ${state}`.trim());
             }
           } catch (error) {
-            console.error('Error getting location:', error);
+            console.error("Error getting location:", error);
           }
         },
         (error) => {
-          console.error('Geolocation error:', error);
-          setLocationError('Unable to get your location. Please enter your address manually.');
-        }
+          console.error("Geolocation error:", error);
+          setLocationError(
+            "Unable to get your location. Please enter your address manually.",
+          );
+        },
       );
     } else {
-      setLocationError('Geolocation is not supported by your browser.');
+      setLocationError("Geolocation is not supported by your browser.");
     }
   }, []);
 
@@ -338,8 +416,8 @@ const Tools = () => {
             </div>
 
             <p className="text-sm sm:text-base text-gray-200 mb-10 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-              Your personal mortgage guide on your quest to becoming a homeowner.
-              Click the links below to start your journey with me.
+              Your personal mortgage guide on your quest to becoming a
+              homeowner. Click the links below to start your journey with me.
             </p>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center lg:justify-start gap-4">
@@ -366,11 +444,11 @@ const Tools = () => {
               </button>
             </div>
           </div>
-          
+
           {contactOpen && (
             <QuickContactModal onClose={() => setContactOpen(false)} />
           )}
-          
+
           <div className="flex-1 relative flex justify-center lg:justify-end items-end w-full">
             <div className="absolute hidden -top-2 sm:top-10 left-1/2 -translate-x-1/2 lg:left-auto lg:-translate-x-0 lg:-left-4 xl:-left-16 z-20 md:flex items-center gap-2">
               <div className="flex flex-col items-center">
@@ -403,28 +481,46 @@ const Tools = () => {
                 alt="Adrian Webb"
                 className="min-w-full h-[500px] sm:h-[480px] lg:h-[550px] object-cover object-top rounded-2xl"
                 style={{
-                  maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
-                  WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+                  maskImage:
+                    "linear-gradient(to bottom, black 80%, transparent 100%)",
+                  WebkitMaskImage:
+                    "linear-gradient(to bottom, black 80%, transparent 100%)",
                 }}
               />
 
               <div className="absolute bottom-4 flex flex-col justify-center sm:bottom-8 right-0 left-0 sm:left-auto mx-auto sm:mx-0 bg-white text-gray-900 p-5 sm:p-2 rounded-2xl shadow-2xl w-[70%] sm:w-64">
                 <h3 className="text-lg font-bold mb-2">Adrian Webb</h3>
-                <p className="text-gray-600 text-sm mb-1">Senior Mortgage Advisor</p>
+                <p className="text-gray-600 text-sm mb-1">
+                  Senior Mortgage Advisor
+                </p>
                 <p className="text-gray-500 text-xs mb-1">NMLS ID: 811655</p>
-                <p className="text-gray-500 text-xs mb-4">NMLS CO ID: 1815656</p>
+                <p className="text-gray-500 text-xs mb-4">
+                  NMLS CO ID: 1815656
+                </p>
 
                 <div className="flex items-center gap-2">
-                  <a href="https://www.facebook.com/adrian.webb.127" className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                  <a
+                    href="https://www.facebook.com/adrian.webb.127"
+                    className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
+                  >
                     <Icon src={icons.facebook} size={18} />
                   </a>
-                  <a href="https://www.instagram.com/adrian.webb.127/" className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                  <a
+                    href="https://www.instagram.com/adrian.webb.127/"
+                    className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
+                  >
                     <Icon src={icons.instagram} size={18} />
                   </a>
-                  <a href="https://www.linkedin.com/in/adrian-webb-492b2910/" className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                  <a
+                    href="https://www.linkedin.com/in/adrian-webb-492b2910/"
+                    className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
+                  >
                     <Icon src={icons.linkedin} size={18} />
                   </a>
-                  <a href="https://www.youtube.com/channel/UCPdDvkQzRXzOt16uQ6J3sEA" className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition">
+                  <a
+                    href="https://www.youtube.com/channel/UCPdDvkQzRXzOt16uQ6J3sEA"
+                    className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 transition"
+                  >
                     <Icon src={icons.youtube} size={18} />
                   </a>
                 </div>
@@ -432,14 +528,15 @@ const Tools = () => {
             </div>
           </div>
         </main>
-        
+
         <div className="text-center mb-12 mt-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Mortgage & Real Estate Tools
           </h1>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Professional tools to help you make informed decisions about your home financing journey.
-            From mortgage calculations to market trends, we've got you covered.
+            Professional tools to help you make informed decisions about your
+            home financing journey. From mortgage calculations to market trends,
+            we've got you covered.
           </p>
         </div>
 
@@ -489,7 +586,9 @@ const Tools = () => {
               <div>
                 <p className="text-sm text-gray-500">Days on Market</p>
                 <p className="text-2xl font-bold text-gray-900">32</p>
-                <p className="text-sm text-green-600">↓ 5 days from last month</p>
+                <p className="text-sm text-green-600">
+                  ↓ 5 days from last month
+                </p>
               </div>
               <div className="bg-yellow-50 p-3 rounded-lg">
                 <Clock className="h-6 w-6 text-yellow-600" />
@@ -504,7 +603,9 @@ const Tools = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <div className="flex items-center gap-3 mb-6">
               <Calculator className="h-6 w-6 text-green-600" />
-              <h2 className="text-xl font-bold text-gray-900">Mortgage Calculator</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                Mortgage Calculator
+              </h2>
             </div>
 
             <div className="space-y-4">
@@ -513,7 +614,9 @@ const Tools = () => {
                   Home Price
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    $
+                  </span>
                   <input
                     type="number"
                     value={loanAmount + downPayment}
@@ -581,7 +684,9 @@ const Tools = () => {
               </div>
 
               <div className="bg-green-50 rounded-lg p-4 mt-4">
-                <p className="text-sm text-gray-600">Estimated Monthly Payment</p>
+                <p className="text-sm text-gray-600">
+                  Estimated Monthly Payment
+                </p>
                 <p className="text-3xl font-bold text-green-600">
                   ${monthlyPayment.toFixed(2)}
                 </p>
@@ -593,23 +698,34 @@ const Tools = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <div className="flex items-center gap-3 mb-6">
               <PieChart className="h-6 w-6 text-green-600" />
-              <h2 className="text-xl font-bold text-gray-900">Payment Breakdown</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                Payment Breakdown
+              </h2>
             </div>
             <div className="h-64">
-              <Pie data={monthlyPaymentData} options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }} />
+              <Pie
+                data={monthlyPaymentData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                    },
+                  },
+                }}
+              />
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 bg-green-700 rounded-full"></span>
-                <span>Principal & Interest: ${Math.max(0, monthlyPayment - propertyTax - insurance).toFixed(0)}</span>
+                <span>
+                  Principal & Interest: $
+                  {Math.max(
+                    0,
+                    monthlyPayment - propertyTax - insurance,
+                  ).toFixed(0)}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="w-3 h-3 bg-green-500 rounded-full"></span>
@@ -629,7 +745,9 @@ const Tools = () => {
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <Activity className="h-6 w-6 text-green-600" />
-                <h2 className="text-xl font-bold text-gray-900">Market Trends</h2>
+                <h2 className="text-xl font-bold text-gray-900">
+                  Market Trends
+                </h2>
               </div>
               <select
                 value={selectedTimeframe}
@@ -640,35 +758,41 @@ const Tools = () => {
                 <option value="6M">6 Months</option>
                 <option value="1Y">1 Year</option>
                 <option value="5Y">5 Years</option>
+                <option value="10Y">5 Years</option>
               </select>
             </div>
             <div className="h-64">
-              <Line data={marketTrendData} options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: {
-                    position: 'bottom'
-                  }
-                },
-                scales: {
-                  y: {
-                    beginAtZero: false,
-                    ticks: {
-                      callback: function(value) {
-                        return '$' + value.toLocaleString();
-                      }
-                    }
-                  }
-                }
-              }} />
+              <Line
+                data={marketTrendData}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                    },
+                  },
+                  scales: {
+                    y: {
+                      beginAtZero: false,
+                      ticks: {
+                        callback: function (value) {
+                          return "$" + value.toLocaleString();
+                        },
+                      },
+                    },
+                  },
+                }}
+              />
             </div>
           </div>
 
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <div className="flex items-center gap-3 mb-6">
               <Home className="h-6 w-6 text-green-600" />
-              <h2 className="text-xl font-bold text-gray-900">Home Value Estimator</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                Home Value Estimator
+              </h2>
             </div>
             <div className="space-y-4">
               <div>
@@ -692,7 +816,7 @@ const Tools = () => {
                   </button>
                 </div>
               </div>
-              
+
               <button
                 onClick={handleEstimateValue}
                 disabled={isLoading}
@@ -710,13 +834,15 @@ const Tools = () => {
                   </>
                 )}
               </button>
-              
+
               {locationError && (
-                <div className={`text-sm ${locationError.includes('found') ? 'text-green-600' : 'text-yellow-600'} bg-yellow-50 p-2 rounded-lg`}>
+                <div
+                  className={`text-sm ${locationError.includes("found") ? "text-green-600" : "text-yellow-600"} bg-yellow-50 p-2 rounded-lg`}
+                >
                   {locationError}
                 </div>
               )}
-              
+
               {estimatedValue && (
                 <div className="bg-green-50 rounded-lg p-4">
                   <p className="text-sm text-gray-600">Estimated Home Value</p>
@@ -728,37 +854,51 @@ const Tools = () => {
                   </p>
                 </div>
               )}
-              
+
               {valueHistory.length > 0 && (
                 <div className="h-40 mt-4">
-                  <Bar data={{
-                    labels: ['2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'],
-                    datasets: [{
-                      label: 'Value History',
-                      data: valueHistory,
-                      backgroundColor: 'rgba(0, 97, 50, 0.6)',
-                      borderColor: '#006132',
-                      borderWidth: 2,
-                    }]
-                  }} options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                      legend: {
-                        display: false
-                      }
-                    },
-                    scales: {
-                      y: {
-                        beginAtZero: false,
-                        ticks: {
-                          callback: function(value) {
-                            return '$' + (value / 1000).toFixed(0) + 'k';
-                          }
-                        }
-                      }
-                    }
-                  }} />
+                  <Bar
+                    data={{
+                      labels: [
+                        "2016",
+                        "2017",
+                        "2018",
+                        "2019",
+                        "2020",
+                        "2021",
+                        "2022",
+                        "2023",
+                      ],
+                      datasets: [
+                        {
+                          label: "Value History",
+                          data: valueHistory,
+                          backgroundColor: "rgba(0, 97, 50, 0.6)",
+                          borderColor: "#006132",
+                          borderWidth: 2,
+                        },
+                      ],
+                    }}
+                    options={{
+                      responsive: true,
+                      maintainAspectRatio: false,
+                      plugins: {
+                        legend: {
+                          display: false,
+                        },
+                      },
+                      scales: {
+                        y: {
+                          beginAtZero: false,
+                          ticks: {
+                            callback: function (value) {
+                              return "$" + (value / 1000).toFixed(0) + "k";
+                            },
+                          },
+                        },
+                      },
+                    }}
+                  />
                 </div>
               )}
             </div>
@@ -770,18 +910,23 @@ const Tools = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <div className="flex items-center gap-3 mb-6">
               <Users className="h-6 w-6 text-green-600" />
-              <h2 className="text-xl font-bold text-gray-900">Loan Type Distribution</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                Loan Type Distribution
+              </h2>
             </div>
             <div className="h-64">
-              <Doughnut data={loanTypeDistribution} options={{
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                  legend: {
-                    position: 'bottom'
-                  }
-                }
-              }} />
+              <Doughnut
+                data={loanTypeDistribution}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
+                  plugins: {
+                    legend: {
+                      position: "bottom",
+                    },
+                  },
+                }}
+              />
             </div>
             <div className="mt-4 grid grid-cols-2 gap-2 text-sm">
               <div className="flex items-center gap-2">
@@ -806,24 +951,42 @@ const Tools = () => {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <div className="flex items-center gap-3 mb-6">
               <FileText className="h-6 w-6 text-green-600" />
-              <h2 className="text-xl font-bold text-gray-900">Quick Resources</h2>
+              <h2 className="text-xl font-bold text-gray-900">
+                Quick Resources
+              </h2>
             </div>
             <div className="space-y-4">
               <div className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer">
-                <h3 className="font-semibold text-gray-900">Down Payment Guide</h3>
-                <p className="text-sm text-gray-600">Learn about down payment options and requirements</p>
+                <h3 className="font-semibold text-gray-900">
+                  Down Payment Guide
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Learn about down payment options and requirements
+                </p>
               </div>
               <div className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer">
-                <h3 className="font-semibold text-gray-900">Pre-Approval Checklist</h3>
-                <p className="text-sm text-gray-600">Everything you need for a smooth pre-approval</p>
+                <h3 className="font-semibold text-gray-900">
+                  Pre-Approval Checklist
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Everything you need for a smooth pre-approval
+                </p>
               </div>
               <div className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer">
-                <h3 className="font-semibold text-gray-900">Closing Cost Estimator</h3>
-                <p className="text-sm text-gray-600">Estimate your closing costs before you buy</p>
+                <h3 className="font-semibold text-gray-900">
+                  Closing Cost Estimator
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Estimate your closing costs before you buy
+                </p>
               </div>
               <div className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors cursor-pointer">
-                <h3 className="font-semibold text-gray-900">First-Time Homebuyer Guide</h3>
-                <p className="text-sm text-gray-600">Step-by-step guide for first-time buyers</p>
+                <h3 className="font-semibold text-gray-900">
+                  First-Time Homebuyer Guide
+                </h3>
+                <p className="text-sm text-gray-600">
+                  Step-by-step guide for first-time buyers
+                </p>
               </div>
             </div>
           </div>
@@ -833,34 +996,60 @@ const Tools = () => {
         <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
           <div className="flex items-center gap-3 mb-6">
             <DollarSign className="h-6 w-6 text-green-600" />
-            <h2 className="text-xl font-bold text-gray-900">Learn From Experience</h2>
+            <h2 className="text-xl font-bold text-gray-900">
+              Learn From Experience
+            </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-green-50 rounded-lg p-4">
-              <h3 className="font-semibold text-gray-900 mb-2">Should I save 20% down?</h3>
-              <p className="text-sm text-gray-600">While 20% down avoids PMI, there are many loan programs with lower down payment options...</p>
-              <button className="mt-2 text-green-600 font-medium text-sm hover:text-green-700">Learn More →</button>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Should I save 20% down?
+              </h3>
+              <p className="text-sm text-gray-600">
+                While 20% down avoids PMI, there are many loan programs with
+                lower down payment options...
+              </p>
+              <button className="mt-2 text-green-600 font-medium text-sm hover:text-green-700">
+                Learn More →
+              </button>
             </div>
             <div className="bg-green-50 rounded-lg p-4">
-              <h3 className="font-semibold text-gray-900 mb-2">Fixed vs Adjustable Rate</h3>
-              <p className="text-sm text-gray-600">Understand the difference between fixed-rate and adjustable-rate mortgages to choose the right option...</p>
-              <button className="mt-2 text-green-600 font-medium text-sm hover:text-green-700">Learn More →</button>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Fixed vs Adjustable Rate
+              </h3>
+              <p className="text-sm text-gray-600">
+                Understand the difference between fixed-rate and adjustable-rate
+                mortgages to choose the right option...
+              </p>
+              <button className="mt-2 text-green-600 font-medium text-sm hover:text-green-700">
+                Learn More →
+              </button>
             </div>
             <div className="bg-green-50 rounded-lg p-4">
               <h3 className="font-semibold text-gray-900 mb-2">What is PMI?</h3>
-              <p className="text-sm text-gray-600">Private Mortgage Insurance protects lenders when you put less than 20% down...</p>
-              <button className="mt-2 text-green-600 font-medium text-sm hover:text-green-700">Learn More →</button>
+              <p className="text-sm text-gray-600">
+                Private Mortgage Insurance protects lenders when you put less
+                than 20% down...
+              </p>
+              <button className="mt-2 text-green-600 font-medium text-sm hover:text-green-700">
+                Learn More →
+              </button>
             </div>
           </div>
         </div>
 
         {/* Footer Note */}
         <div className="mt-8 text-center text-sm text-gray-500">
-          <p>* All estimates are for informational purposes only. Please consult with a licensed professional for accurate information.</p>
-          <p className="mt-1">Data updated as of {new Date().toLocaleDateString()}</p>
+          <p>
+            * All estimates are for informational purposes only. Please consult
+            with a licensed professional for accurate information.
+          </p>
+          <p className="mt-1">
+            Data updated as of {new Date().toLocaleDateString()}
+          </p>
         </div>
       </div>
-      
+
       <ScheduleCallModal
         isOpen={scheduleOpen}
         onClose={() => setScheduleOpen(false)}
