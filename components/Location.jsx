@@ -2,7 +2,7 @@
 import  { useState } from 'react';
 import { MapPin, ExternalLink, Calendar, Phone, Mail } from 'lucide-react';
 import '../src/LocationFinder.css';
-import ScheduleCallModal from './scheduleCallModal';
+import ScheduleCallModal from './ScheduleCallModal';
 
 // Office Address
 const OFFICE_ADDRESS = "28 Union Street, Suite 101, New Bedford, MA 02740";
@@ -30,6 +30,7 @@ const icons = {
 
 const LocationFinder = () => {
   const [scheduleOpen, setScheduleOpen] = useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [contactOpen, setContactOpen] = useState(false);
 
   return (

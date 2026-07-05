@@ -1,4 +1,4 @@
-import ScheduleCallModal from "./scheduleCallModal";
+import ScheduleCallModal from "./ScheduleCallModal";
 
 const Icon = ({ src = "", size = 20, className = "" }) => (
   <img src={src} width={size} height={size} className={className} alt="" />

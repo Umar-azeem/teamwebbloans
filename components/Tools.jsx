@@ -27,7 +27,7 @@ import {
   MapPin,
   Search,
 } from "lucide-react";
-import ScheduleCallModal from "./scheduleCallModal";
+import ScheduleCallModal from "./ScheduleCallModal";
 import QuickContactModal from "./quickClick";
 
 // Register ChartJS components

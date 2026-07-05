@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Loan from "./applyLoan";
 import { Link } from "react-router-dom";
-import ScheduleCallModal from "./scheduleCallModal";
+import ScheduleCallModal from "./ScheduleCallModal";
 
 const videos = [
   {
@@ -175,7 +175,7 @@ const AnimatedText = ({ text, delay = 0, className = "" }) => {
 function Realtor() {
   const [activeId, setActiveId] = useState(3);
   const [playing, setPlaying] = useState(false);
- const [scheduleOpen, setScheduleOpen] = useState(false);
+  const [scheduleOpen, setScheduleOpen] = useState(false);
   const activeVideo = videos.find((v) => v.id === activeId) || videos[0];
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -222,14 +222,13 @@ function Realtor() {
   const canPrev = index > 0;
   const canNext = index < cards.length - visibleCount;
   return (
-    <div >
-      
+    <div>
       <Hero
-              eyebrow="HI, I'M Adrian Webb"
-              title="I help Realtors® sell and list more homes."
-              description="With my expertise, we'll win more bids and close more deals, turning possibilities into properties together!"
-              setScheduleOpen={setScheduleOpen}
-            />
+        eyebrow="HI, I'M Adrian Webb"
+        title="I help Realtors® sell and list more homes."
+        description="With my expertise, we'll win more bids and close more deals, turning possibilities into properties together!"
+        setScheduleOpen={setScheduleOpen}
+      />
 
       {/* Section 1 - Our Community */}
       <section className="bg-white py-16 sm:py-24 lg:py-30 px-4 sm:px-6 lg:px-1 m-4">

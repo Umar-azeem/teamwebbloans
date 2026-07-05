@@ -1,5 +1,5 @@
 import { useState } from "react";
-import ScheduleCallModal from "./scheduleCallModal";
+import ScheduleCallModal from "./ScheduleCallModal";
 
 export default function Loan() {
     const [scheduleOpen, setScheduleOpen] = useState(false);

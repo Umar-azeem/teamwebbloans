@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import EducationPanel from "../components/educlick";
-import ScheduleCallModal from "../components/scheduleCallModal";
+import ScheduleCallModal from "../components/ScheduleCallModal";
 import QuickContactModal from "../components/quickClick";
 import Navbar from "../components/navbar";
 import { Routes, Route, } from "react-router-dom";

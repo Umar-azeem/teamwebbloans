@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Loan from "./applyLoan";
 import { Link } from "react-router-dom";
-import ScheduleCallModal from "./scheduleCallModal";
+import ScheduleCallModal from "./ScheduleCallModal";
 
 const videos = [
   {

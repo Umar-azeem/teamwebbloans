@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Loan from "./applyLoan";
 import { Link } from "react-router-dom";
-import ScheduleCallModal from "./scheduleCallModal";
+import ScheduleCallModal from "./ScheduleCallModal";
 
 const videos = [
   {
@@ -430,8 +430,7 @@ function FinancialPlanner() {
             </h2>
             <p className="text-gray-500 mt-4 max-w-lg mx-auto text-sm sm:text-base">
               Unlock the power of integrating mortgage advice into your
-              financial planning, enhancing client outcomes and business
-              growth.
+              financial planning, enhancing client outcomes and business growth.
             </p>
           </FadeIn>
 
@@ -895,7 +894,6 @@ function FinancialPlanner() {
 
       <Loan />
       <ScheduleCallModal
-      
         isOpen={scheduleOpen}
         onClose={() => setScheduleOpen(false)}
         onConfirm={(appointmentDetails) => {
