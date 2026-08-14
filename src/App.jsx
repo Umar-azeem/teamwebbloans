@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import EducationPanel from "../components/educlick";
 import ScheduleCallModal from "../components/ScheduleCallModal";
 import QuickContactModal from "../components/quickClick";
 import Navbar from "../components/navbar";
-import { Routes, Route, } from "react-router-dom";
 import Home from "../components/Home";
 import Realtor from "../components/Realtor.jsx";
 import Footer from "../components/footercontact.jsx";
@@ -13,11 +13,9 @@ import FinancialPlanner from "../components/FinancialPlanner.jsx";
 import DivorceAttorney from "../components/Divorceattorney.jsx";
 import Tools from "../components/Tools.jsx";
 import Faq from "../components/Faq.jsx";
-
 import Location from "../components/Location.jsx";
 import Events from "../components/events.jsx";
 import MonitorPlays from "../components/MonitorPlays.jsx";
-
 
 const MortgageLandingPage = () => {
   const [educationOpen, setEducationOpen] = useState(false);
@@ -59,7 +57,6 @@ const MortgageLandingPage = () => {
           <Route path="/Location" element={<Location />} />
           <Route path="/Events" element={<Events />} />
           <Route path="/MonitorPlays" element={<MonitorPlays />} />
-
         </Routes>
         {educationOpen && (
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -76,12 +73,10 @@ const MortgageLandingPage = () => {
         }}
       />
       
-      
       {contactOpen && (
         <QuickContactModal onClose={() => setContactOpen(false)} />
       )}
       <Faq />
-      
       <Footer />
       <FooterText />
     </div>

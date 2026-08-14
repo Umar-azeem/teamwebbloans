@@ -269,7 +269,7 @@ export default function Events() {
   const [activeTab, setActiveTab] = useState("profile");
 
   return (
-    <div className="bg-gray-50 font-sans antialiased">
+    <div className="bg-gray-50 font-sans antialiased  ">
       {/* Hero Section */}
       <div className="">
         <HeroSection />

@@ -68,7 +68,7 @@ const VideoCards = () => {
   };
 
   return (
-    <div className="bg-[#006132] rounded-2xl overflow-hidden p-6 sm:p-8 lg:p-10">
+    <div className="bg-[#006132] rounded-2xl overflow-hidden p-6 sm:p-10 lg:p-18">
       <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-6 sm:mb-8 text-center">
         Past Events
       </h2>

@@ -1,5 +1,6 @@
 "use client";
-import { MapPin, Wrench, Calendar, Mail, Phone, MonitorPlay, Combine } from 'lucide-react';
+import { MapPin, Wrench, Combine, MonitorPlay } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const ButtonsFour = () => {
   const socialLinks = [
@@ -9,7 +10,7 @@ const ButtonsFour = () => {
       bgColor: 'hover:bg-[#006132]',
       iconColor: 'text-[#006132]',
       hoverIconColor: 'group-hover:text-white',
-      url: '/location',
+      url: '/Location', // Match the route path exactly
       label: 'Location',
       className: 'mt-6 ml-5'
     },
@@ -19,7 +20,7 @@ const ButtonsFour = () => {
       bgColor: 'hover:bg-[#006132]',
       iconColor: 'text-[#006132]',
       hoverIconColor: 'group-hover:text-white',
-      url: '/Tools',
+      url: '/Tools', // Match the route path exactly
       label: 'Tools',
       className: 'mt-6 -ml-3'
     },
@@ -29,18 +30,18 @@ const ButtonsFour = () => {
       bgColor: 'hover:bg-[#006132]',
       iconColor: 'text-[#006132]',
       hoverIconColor: 'group-hover:text-white',
-      url: '/Events',
+      url: '/Events', // Match the route path exactly
       label: 'Events',
       className: '-mt-2 ml-5'
     },
     {
-      id: 'mail',
+      id: 'monitor',
       Icon: MonitorPlay,
       bgColor: 'hover:bg-[#006132]',
       iconColor: 'text-[#006132]',
       hoverIconColor: 'group-hover:text-white',
-      url: '/MonitorPlays',
-      label: 'MonitorPlay',
+      url: '/MonitorPlays', // Match the route path exactly
+      label: 'MonitorPlays',
       className: '-mt-3 -ml-5'
     }
   ];
@@ -57,43 +58,35 @@ const ButtonsFour = () => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex gap-2">
-        <a
-          href={socialLinks[0].url}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          to={socialLinks[0].url}
           className={`group relative w-[90px] h-[90px] bg-white rounded-[90px_5px_5px_5px] shadow-md hover:scale-110 transition-transform duration-200 flex items-center justify-center ${socialLinks[0].bgColor}`}
         >
           {renderIcon(socialLinks[0])}
-        </a>
+        </Link>
 
-        <a
-          href={socialLinks[1].url}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          to={socialLinks[1].url}
           className={`group relative w-[90px] h-[90px] bg-white rounded-[5px_90px_5px_5px] shadow-md hover:scale-110 transition-transform duration-200 flex items-center justify-center ${socialLinks[1].bgColor}`}
         >
           {renderIcon(socialLinks[1])}
-        </a>
+        </Link>
       </div>
 
       <div className="flex gap-2">
-        <a
-          href={socialLinks[2].url}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          to={socialLinks[2].url}
           className={`group relative w-[90px] h-[90px] bg-white rounded-[5px_5px_5px_90px] shadow-md hover:scale-110 transition-transform duration-200 flex items-center justify-center ${socialLinks[2].bgColor}`}
         >
           {renderIcon(socialLinks[2])}
-        </a>
+        </Link>
 
-        <a
-          href={socialLinks[3].url}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Link
+          to={socialLinks[3].url}
           className={`group relative w-[90px] h-[90px] bg-white rounded-[5px_5px_90px_5px] shadow-md hover:scale-110 transition-transform duration-200 flex items-center justify-center ${socialLinks[3].bgColor}`}
         >
           {renderIcon(socialLinks[3])}
-        </a>
+        </Link>
       </div>
     </div>
   );
