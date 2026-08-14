@@ -6,6 +6,8 @@ import FAQ from "./Faq";
 
 import EducationSection from "./learnedu";
 import MortgageCalculator from "./MortageCal";
+import ButtonsFour from "./buttonsFour.";
+import GuideSection from "./GuideSection";
 
 const Home = ({ setScheduleOpen, setContactOpen }) => {
   const Icon = ({ src, size = 20, className = "" }) => (
@@ -148,7 +150,7 @@ const Home = ({ setScheduleOpen, setContactOpen }) => {
       </main>
 
       {/* All sections moved here */}
-      <div className="w-full mx-auto">
+      <div className="w-full mx-auto space-y-6 ">
         <CommunitySection
           setScheduleOpen={setScheduleOpen}
           setContactOpen={setContactOpen}
@@ -164,19 +166,7 @@ const Home = ({ setScheduleOpen, setContactOpen }) => {
         <MortgageCalculator setContactOpen={setContactOpen} />
         <FAQ />
         <Loan setScheduleOpen={setScheduleOpen} />
-
-        <div className="flex justify-between mt-10 p-3">
-          <Link to="/Tools">
-            <button className="bg-green-700  px-6 py-3 rounded-xl transition-transform duration-300 hover:translate-y-1 w-32 sm:w-auto">
-              Tools
-            </button>
-          </Link>
-          <Link to="/Location">
-            <button className="bg-green-700 px-6 py-3 rounded-xl transition-transform duration-300 hover:translate-y-1 w-32 sm:w-auto">
-              Location
-            </button>
-          </Link>
-        </div>
+       <div className="w-full "><GuideSection /></div> 
       </div>
     </>
   );

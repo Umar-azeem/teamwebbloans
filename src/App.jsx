@@ -12,7 +12,12 @@ import FooterText from "../components/footerText.jsx";
 import FinancialPlanner from "../components/FinancialPlanner.jsx";
 import DivorceAttorney from "../components/Divorceattorney.jsx";
 import Tools from "../components/Tools.jsx";
+import Faq from "../components/Faq.jsx";
+
 import Location from "../components/Location.jsx";
+import Events from "../components/events.jsx";
+import MonitorPlays from "../components/MonitorPlays.jsx";
+
 
 const MortgageLandingPage = () => {
   const [educationOpen, setEducationOpen] = useState(false);
@@ -52,6 +57,9 @@ const MortgageLandingPage = () => {
           <Route path="/DivorceAttorney" element={<DivorceAttorney />} />
           <Route path="/Tools" element={<Tools />} />
           <Route path="/Location" element={<Location />} />
+          <Route path="/Events" element={<Events />} />
+          <Route path="/MonitorPlays" element={<MonitorPlays />} />
+
         </Routes>
         {educationOpen && (
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,7 +68,6 @@ const MortgageLandingPage = () => {
         )}
       </div>
 
-      {/* Modals */}
       <ScheduleCallModal
         isOpen={scheduleOpen}
         onClose={() => setScheduleOpen(false)}
@@ -68,12 +75,13 @@ const MortgageLandingPage = () => {
           console.log("Appointment confirmed:", appointmentDetails);
         }}
       />
-
+      
+      
       {contactOpen && (
         <QuickContactModal onClose={() => setContactOpen(false)} />
       )}
-
-         
+      <Faq />
+      
       <Footer />
       <FooterText />
     </div>
