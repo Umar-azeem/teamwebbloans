@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import EducationPanel from "../components/educlick";
 import ScheduleCallModal from "../components/ScheduleCallModal";
 import QuickContactModal from "../components/quickClick";
@@ -17,14 +17,26 @@ import Location from "../components/Location.jsx";
 import Events from "../components/events.jsx";
 import MonitorPlays from "../components/MonitorPlays.jsx";
 
+// ── Scroll to Top Component ─────────────────────────────────────────────────
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
+
+// ── Main Component ──────────────────────────────────────────────────────────
 const MortgageLandingPage = () => {
   const [educationOpen, setEducationOpen] = useState(false);
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
 
   return (
-    <div className="p-2">
-      <div className="rounded-3xl text-white font-sans overflow-hidden relative">
+    <div className="min-h-screen bg-white p-2"> {/* Changed from p-2 to min-h-screen */}
+      <div className="text-white font-sans overflow-hidden relative">
         <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-10 pointer-events-none hidden md:block">
           <svg width="600" height="700" viewBox="0 0 600 700" fill="none">
             <path
@@ -39,6 +51,10 @@ const MortgageLandingPage = () => {
           educationOpen={educationOpen}
           setEducationOpen={setEducationOpen}
         />
+        
+        {/* Add ScrollToTop here */}
+        <ScrollToTop />
+        
         <Routes>
           <Route
             path="/"
@@ -58,6 +74,7 @@ const MortgageLandingPage = () => {
           <Route path="/Events" element={<Events />} />
           <Route path="/MonitorPlays" element={<MonitorPlays />} />
         </Routes>
+        
         {educationOpen && (
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <EducationPanel />

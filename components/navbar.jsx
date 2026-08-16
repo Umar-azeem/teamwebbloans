@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import EducationPanel from "./educlick";
 import PartnersPanel from "./Partnerspanel";
+// import EventsPanel from "./EventsPanel"; 
 import { Link } from "react-router-dom";
+import EventsPanel from "./Eventpanel";
 
 // ── Desktop Partners dropdown ─────────────────────────────────────────────────
 function DesktopPartnersDropdown({ onClose }) {
@@ -27,6 +29,30 @@ function DesktopPartnersDropdown({ onClose }) {
   );
 }
 
+// ── Desktop Events dropdown ─────────────────────────────────────────────────
+function DesktopEventsDropdown({ onClose }) {
+  return (
+    <div className="absolute top-full left-0 mt-4 z-50 w-64 bg-white text-gray-900 rounded-xl shadow-2xl overflow-hidden">
+      {[
+        { label: "Events", href: "/Events" },
+        { label: "Monitor Plays", href: "/MonitorPlays" },
+        { label: "Location", href: "/Location" },
+        { label: "Tools", href: "/Tools" },
+      ].map((item) => (
+        <Link
+          key={item.label}
+          to={item.href}
+          onClick={onClose}
+          className="flex items-center justify-between px-5 py-3 font-semibold text-sm border-b border-gray-100 last:border-0 hover:bg-gray-50 transition"
+        >
+          {item.label}
+          <span className="text-[#006132]">›</span>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
 // ── Mobile full-screen menu ───────────────────────────────────────────────────
 function MobileMenu({
   open,
@@ -34,6 +60,7 @@ function MobileMenu({
   onApply,
   onEducationOpen,
   onPartnersOpen,
+  onEventsOpen, // Add this prop
 }) {
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -68,7 +95,7 @@ function MobileMenu({
             <line x1="6" y1="6" x2="18" y2="18" />
           </svg>
         </button>
-        <div className="flex flex-col items-center   ">
+        <div className="flex flex-col items-center">
           <img
             src="https://cdn.prod.website-files.com/65d509901b89bb3fd2a62af7/65d6f053f3aaee0cbfc8fac7_new-logo.png"
             alt="Adrian Webb Logo"
@@ -144,6 +171,27 @@ function MobileMenu({
             <polyline points="12 5 19 12 12 19" />
           </svg>
         </button>
+
+        {/* Events Program */}
+        <button
+          onClick={onEventsOpen} // Change this from onPartnersOpen
+          className="flex items-center justify-between text-white font-bold text-2xl py-5 border-b border-white/20 hover:text-gray-200 transition w-full text-left"
+        >
+          Events Program
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
+        </button>
       </nav>
 
       {/* Bottom CTA */}
@@ -194,9 +242,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [educationOpen, setEducationOpen] = useState(false);
   const [partnersOpen, setPartnersOpen] = useState(false);
+  const [eventsOpen, setEventsOpen] = useState(false); // Add this state
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileEducationOpen, setMobileEducationOpen] = useState(false);
   const [mobilePartnersOpen, setMobilePartnersOpen] = useState(false);
+  const [mobileEventsOpen, setMobileEventsOpen] = useState(false); // Add this state
   const [applyOpen, setApplyOpen] = useState(false);
 
   useEffect(() => {
@@ -208,6 +258,7 @@ export default function Navbar() {
   const closeDesktopAll = () => {
     setEducationOpen(false);
     setPartnersOpen(false);
+    setEventsOpen(false); // Add this
   };
 
   return (
@@ -270,6 +321,7 @@ export default function Navbar() {
                 onClick={() => {
                   setEducationOpen(!educationOpen);
                   setPartnersOpen(false);
+                  setEventsOpen(false);
                 }}
               >
                 Education
@@ -283,6 +335,9 @@ export default function Navbar() {
                   <polyline points="6 9 12 15 18 9" />
                 </svg>
               </button>
+              {educationOpen && (
+                <EducationPanel onClose={closeDesktopAll} />
+              )}
             </div>
 
             {/* Partners */}
@@ -292,6 +347,7 @@ export default function Navbar() {
                 onClick={() => {
                   setPartnersOpen(!partnersOpen);
                   setEducationOpen(false);
+                  setEventsOpen(false);
                 }}
               >
                 Partners
@@ -307,6 +363,32 @@ export default function Navbar() {
               </button>
               {partnersOpen && (
                 <DesktopPartnersDropdown onClose={closeDesktopAll} />
+              )}
+            </div>
+
+            {/* Events - Add this new section */}
+            <div className="relative">
+              <button
+                className="flex items-center gap-1 hover:text-gray-200 transition"
+                onClick={() => {
+                  setEventsOpen(!eventsOpen);
+                  setEducationOpen(false);
+                  setPartnersOpen(false);
+                }}
+              >
+                Events
+                <svg
+                  className={`w-4 h-4 transition-transform duration-200 ${eventsOpen ? "rotate-180" : ""}`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              {eventsOpen && (
+                <DesktopEventsDropdown onClose={closeDesktopAll} />
               )}
             </div>
 
@@ -386,17 +468,10 @@ export default function Navbar() {
             </div>
           </div>
         </div>
-
-        {/* Desktop Education mega panel */}
-        {educationOpen && (
-          <div className="hidden lg:block">
-            <EducationPanel onClose={closeDesktopAll} />
-          </div>
-        )}
       </nav>
 
       {/* Click outside to close desktop dropdowns */}
-      {(educationOpen || partnersOpen) && (
+      {(educationOpen || partnersOpen || eventsOpen) && (
         <div className="fixed inset-0 z-40" onClick={closeDesktopAll} />
       )}
 
@@ -413,6 +488,10 @@ export default function Navbar() {
           setMobileOpen(false);
           setMobilePartnersOpen(true);
         }}
+        onEventsOpen={() => {
+          setMobileOpen(false);
+          setMobileEventsOpen(true);
+        }}
       />
 
       {/* ── Mobile Education full-screen panel ── */}
@@ -428,6 +507,16 @@ export default function Navbar() {
           <PartnersPanel
             mobile={true}
             onClose={() => setMobilePartnersOpen(false)}
+          />
+        </div>
+      )}
+
+      {/* ── Mobile Events full-screen panel ── */}
+      {mobileEventsOpen && (
+        <div className="lg:hidden">
+          <EventsPanel
+            mobile={true}
+            onClose={() => setMobileEventsOpen(false)}
           />
         </div>
       )}
